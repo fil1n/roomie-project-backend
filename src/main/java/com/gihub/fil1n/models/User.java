@@ -16,6 +16,9 @@ public class User {
     @Column(name = "first_name")
     private String fname;
 
+    @Column(name = "age")
+    private Long age;
+
     @Column(name = "last_name")
     private String lname;
 
@@ -58,6 +61,20 @@ public class User {
     public void setKnot(ArrayList<Group> knot) {
         this.knot = knot;
     }
+
+    public Long getAge() {
+        return age;
+    }
+
+    public void setAge(Long age) {
+        this.age = age;
+    }
+
+    public void setKnot(List<Group> knot) {
+        this.knot = knot;
+    }
+
+
 
     public User() {}
 }

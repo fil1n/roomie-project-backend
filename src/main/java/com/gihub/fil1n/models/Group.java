@@ -15,6 +15,9 @@ public class Group {
     @ManyToMany(cascade = CascadeType.ALL, mappedBy = "knot")
     private List<User> users = new ArrayList<>();
 
+    @ManyToMany(cascade = CascadeType.ALL, mappedBy = "knotList")
+    private List<Question> questions = new ArrayList<>();
+
     private Long MAX_NUM_OF_USERS;
 
     public Long getId() {
