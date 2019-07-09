@@ -1,8 +1,6 @@
 package com.gihub.fil1n;
 
-import com.gihub.fil1n.models.Group;
-import com.gihub.fil1n.models.Question;
-import com.gihub.fil1n.models.User;
+import com.gihub.fil1n.models.*;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
@@ -20,8 +18,9 @@ public class HibernateInit {
         try {
             MetadataSources sources = new MetadataSources(registry);
 
-            sources.addPackage("models").addAnnotatedClass(User.class).
-                    addAnnotatedClass(Group.class).addAnnotatedClass(Question.class);
+            sources.addPackage("models").addAnnotatedClass(User.class)
+                    .addAnnotatedClass(UserLanguage.class).addAnnotatedClass(Group.class)
+            .addAnnotatedClass(Question.class).addAnnotatedClass(CommunicationType.class);
 
             sessionFactory = sources.buildMetadata().buildSessionFactory();
         }catch (Exception e) {
