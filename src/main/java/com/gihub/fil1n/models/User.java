@@ -22,6 +22,14 @@ public class User {
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
+            name = "user_habbits",
+            joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "habbit_id", referencedColumnName = "id")}
+    )
+    private List<Habbit> habbitList;
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
             name = "trusted_knot",
             joinColumns = {@JoinColumn(name = "trusted_user_id", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "trusted_group_id", referencedColumnName = "id")}
