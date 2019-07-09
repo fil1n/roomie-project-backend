@@ -20,7 +20,8 @@ public class HibernateInit {
 
             sources.addPackage("models").addAnnotatedClass(User.class)
                     .addAnnotatedClass(UserLanguage.class).addAnnotatedClass(Group.class)
-            .addAnnotatedClass(Question.class).addAnnotatedClass(CommunicationType.class);
+            .addAnnotatedClass(Question.class).addAnnotatedClass(CommunicationType.class)
+                    .addAnnotatedClass(Habbit.class);
 
             sessionFactory = sources.buildMetadata().buildSessionFactory();
         }catch (Exception e) {
