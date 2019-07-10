@@ -1,2 +1,2 @@
-# Source alpha ver 0.0.1
-In active development.
+# Source (alpha v. 001) 
+BackEnd for future project
