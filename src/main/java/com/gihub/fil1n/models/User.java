@@ -20,6 +20,9 @@ public class User {
     @OneToOne(mappedBy = "owner", cascade = CascadeType.ALL)
     private Group ownedGroup;
 
+//    @OneToOne
+//    private UserPreferences userPreferences;
+
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "user_habbits",
