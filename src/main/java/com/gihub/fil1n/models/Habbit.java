@@ -22,6 +22,8 @@ public class Habbit {
     @ManyToMany(mappedBy = "habbitList")
     private List<User> userList;
 
+    @ManyToMany(mappedBy = "userPreferences")
+    private List<UserPreferences> preferencesList;
 
     public Long getId() {
         return id;

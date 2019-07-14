@@ -14,9 +14,17 @@ public class UserPreferences {
     @OneToOne
     private User user;
 
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "user_preferences",
+            joinColumns = {@JoinColumn(name = "preferences_id", referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "habbit_id", referencedColumnName = "id")}
+    )
     private List<Habbit> userPreferences;
 
-    private List<String> userPreferedCountries;
+
+    @OneToMany(mappedBy = "userPreferences")
+    private List<LangPreferences> langPreferencesList;
 
     public Long getId() {
         return id;
@@ -34,20 +42,20 @@ public class UserPreferences {
         this.user = user;
     }
 
+    public List<LangPreferences> getLangPreferencesList() {
+        return langPreferencesList;
+    }
+
+    public void setLangPreferencesList(List<LangPreferences> langPreferencesList) {
+        this.langPreferencesList = langPreferencesList;
+    }
+
     public List<Habbit> getUserPreferences() {
         return userPreferences;
     }
 
     public void setUserPreferences(List<Habbit> userPreferences) {
         this.userPreferences = userPreferences;
-    }
-
-    public List<String> getUserPreferedCountries() {
-        return userPreferedCountries;
-    }
-
-    public void setUserPreferedCountries(List<String> userPreferedCountries) {
-        this.userPreferedCountries = userPreferedCountries;
     }
 
     public UserPreferences() {}
