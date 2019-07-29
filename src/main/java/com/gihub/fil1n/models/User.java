@@ -47,13 +47,20 @@ public class User {
     )
     private List<Group> whereIsUntrusted;
 
-    @Column(name = "current_city")
-    private Long currentCityId;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(
+            name = "current_city_id"
+    )
+    private City currentCity;
 
-    @Column(name = "native_city")
-    private Long nativeCityId;
 
-    @Column(name = "uni_id")
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(
+            name = "native_city_id"
+    )
+    private City nativeCity;
+
+    @Column(name = "uni_id") // TODO: find uni db
     private Long uniId;
 
     @OneToMany(mappedBy = "user")
@@ -83,20 +90,60 @@ public class User {
         this.lastName = lastName;
     }
 
-    public Long getCurrentCityId() {
-        return currentCityId;
+    public Group getOwnedGroup() {
+        return ownedGroup;
     }
 
-    public void setCurrentCityId(Long currentCityId) {
-        this.currentCityId = currentCityId;
+    public void setOwnedGroup(Group ownedGroup) {
+        this.ownedGroup = ownedGroup;
     }
 
-    public Long getNativeCityId() {
-        return nativeCityId;
+    public List<Habbit> getHabbitList() {
+        return habbitList;
     }
 
-    public void setNativeCityId(Long nativeCityId) {
-        this.nativeCityId = nativeCityId;
+    public void setHabbitList(List<Habbit> habbitList) {
+        this.habbitList = habbitList;
+    }
+
+    public List<Group> getWhereIsTrusted() {
+        return whereIsTrusted;
+    }
+
+    public void setWhereIsTrusted(List<Group> whereIsTrusted) {
+        this.whereIsTrusted = whereIsTrusted;
+    }
+
+    public List<Group> getWhereIsUntrusted() {
+        return whereIsUntrusted;
+    }
+
+    public void setWhereIsUntrusted(List<Group> whereIsUntrusted) {
+        this.whereIsUntrusted = whereIsUntrusted;
+    }
+
+    public City getCurrentCity() {
+        return currentCity;
+    }
+
+    public void setCurrentCity(City currentCity) {
+        this.currentCity = currentCity;
+    }
+
+    public List<UserLanguage> getUserLanguageList() {
+        return userLanguageList;
+    }
+
+    public void setUserLanguageList(List<UserLanguage> userLanguageList) {
+        this.userLanguageList = userLanguageList;
+    }
+
+    public City getNativeCity() {
+        return nativeCity;
+    }
+
+    public void setNativeCity(City nativeCity) {
+        this.nativeCity = nativeCity;
     }
 
     public Long getUniId() {
