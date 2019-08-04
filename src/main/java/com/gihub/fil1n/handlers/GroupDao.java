@@ -1,42 +1,20 @@
 package com.gihub.fil1n.handlers;
 
 import com.gihub.fil1n.HibernateInit;
-import com.gihub.fil1n.models.User;
+import com.gihub.fil1n.models.Group;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.jetbrains.annotations.NotNull;
 
-public class UserDao {
-
+public class GroupDao {
     private Session session;
     private Transaction transaction;
 
-    public User getById(@NotNull Long id) throws Exception {
-
+    public void addGroup(@NotNull Group group) {
         try {
             session = HibernateInit.getSessionFactory().openSession();
             transaction = session.beginTransaction();
-            User result = session.get(User.class, id);
-            transaction.commit();
-            session.close();
-
-            if(result == null) {
-                System.out.print("111");
-            }
-
-            return result;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        throw new Exception();
-    }
-
-    public void createUser(@NotNull User user) {
-        try {
-            session = HibernateInit.getSessionFactory().openSession();
-            transaction = session.beginTransaction();
-            session.save(user);
+            session.save(group);
             transaction.commit();
             session.close();
         } catch (Exception e) {
@@ -44,25 +22,42 @@ public class UserDao {
         }
     }
 
-
-    public void update(@NotNull User user) {
+    public Group getGroup(@NotNull String id) {
         try {
+            Long groupId = Long.valueOf(id);
             session = HibernateInit.getSessionFactory().openSession();
             transaction = session.beginTransaction();
-            session.update(user);
+            Group group = session.get(Group.class, groupId);
+            transaction.commit();
+            session.close();
+
+            return group;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    public void deleteGroup(@NotNull String id) {
+        try {
+            Long groupId = Long.valueOf(id);
+            session = HibernateInit.getSessionFactory().openSession();
+            transaction = session.beginTransaction();
+            session.delete(getGroup(id));
             transaction.commit();
             session.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
-    public void deleteById(@NotNull Long id) {
+
+    public void updateGroup(@NotNull Group group) {
         try {
             session = HibernateInit.getSessionFactory().openSession();
             transaction = session.beginTransaction();
-            session.delete(session.get(User.class, id));
+            session.update(group);
             transaction.commit();
             session.close();
         } catch (Exception e) {

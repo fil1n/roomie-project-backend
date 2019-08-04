@@ -5,6 +5,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
+import com.gihub.fil1n.CryptoUtils;
 import com.gihub.fil1n.models.User;
 
 import java.io.IOException;
@@ -24,8 +25,10 @@ public class UserDesirializer extends StdDeserializer<User> {
         JsonNode node =  jsonParser.getCodec().readTree(jsonParser);
         User user = new User();
 
-        user.setFname(node.get("first_name").asText());
-        user.setLname(node.get("last_name").asText());
+        user.setFirstName(node.get("first_name").asText());
+        user.setLastName(node.get("last_name").asText());
+        user.setPassword(CryptoUtils.cryptString(node.get("password").asText()));
+        user.setEmail(node.get("email").asText());
 
         return user;
     }
