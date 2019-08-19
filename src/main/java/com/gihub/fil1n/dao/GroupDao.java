@@ -1,4 +1,4 @@
-package com.gihub.fil1n.handlers;
+package com.gihub.fil1n.dao;
 
 import com.gihub.fil1n.HibernateInit;
 import com.gihub.fil1n.models.Group;
