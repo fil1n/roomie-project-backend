@@ -4,7 +4,13 @@ import com.gihub.fil1n.HibernateInit;
 import com.gihub.fil1n.models.Group;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 import org.jetbrains.annotations.NotNull;
+
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
+import java.util.List;
 
 public class GroupDao {
     private Session session;
@@ -64,4 +70,25 @@ public class GroupDao {
             e.printStackTrace();
         }
     }
+
+    public List<Group> getAllGroups() throws Exception {
+
+        try {
+            session = HibernateInit.getSessionFactory().openSession();
+            transaction = session.beginTransaction();
+
+            CriteriaBuilder builder = session.getCriteriaBuilder();
+            CriteriaQuery<Group> query = builder.createQuery(Group.class);
+            Root<Group> root = query.from(Group.class);
+            query.select(root);
+            Query<Group> q = session.createQuery(query);
+            List<Group> groups = q.getResultList();
+            return groups;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        throw new Exception();
+    }
+
 }
