@@ -2,6 +2,7 @@ package com.gihub.fil1n.jacksonClasses;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.gihub.fil1n.models.Group;
 import com.gihub.fil1n.models.User;
 
 public class JavalinJacksonUtils {
@@ -12,6 +13,8 @@ public class JavalinJacksonUtils {
         try {
             module.addSerializer(User.class, new UserSerializer());
             module.addDeserializer(User.class, new UserDesirializer());
+            module.addSerializer(Group.class, new GroupSerializer());
+            module.addDeserializer(Group.class, new GroupDeserializer());
             mapper.registerModule(module);
         }catch (Exception e) {
             e.printStackTrace();
