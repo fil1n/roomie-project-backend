@@ -1,8 +1,12 @@
 package com.gihub.fil1n.handlers;
 
+import com.gihub.fil1n.dao.GroupDao;
 import com.gihub.fil1n.models.Group;
 import io.javalin.Context;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class GroupCRUD {
 
@@ -49,5 +53,9 @@ public class GroupCRUD {
             e.printStackTrace();
             ctx.status();
         }
+    }
+
+    public static void getRequiredGroups(@NotNull Context ctx) throws Exception {
+
     }
 }
