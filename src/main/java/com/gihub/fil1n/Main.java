@@ -9,6 +9,8 @@ import io.javalin.json.JavalinJackson;
 public class Main {
     public static void main(String[] args)  {
 
+
+         // trash to init hibernate before making responses
         try {
             HibernateInit.getSessionFactory();
         } catch (Exception e) {
@@ -26,6 +28,7 @@ public class Main {
                     app.post("/user", ctx -> UserCRUD.addUser(ctx));
                     app.get("/group/:id", ctx -> GroupCRUD.getGroup(ctx.pathParam("id"), ctx));
                     app.post("/group", ctx -> GroupCRUD.addGroup(ctx));
+                    app.delete("/user/:id", ctx -> UserCRUD.deleteUserById(ctx.pathParam("id")));
                 }
         );
 
