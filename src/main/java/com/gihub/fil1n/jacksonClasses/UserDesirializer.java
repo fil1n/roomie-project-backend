@@ -6,8 +6,7 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import com.gihub.fil1n.CryptoUtils;
-import com.gihub.fil1n.handlers.CityDao;
-import com.gihub.fil1n.models.City;
+import com.gihub.fil1n.dao.CityDao;
 import com.gihub.fil1n.models.User;
 
 import java.io.IOException;
