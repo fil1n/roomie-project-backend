@@ -1,11 +1,17 @@
 package com.gihub.fil1n.models;
 
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "user_s")
 public class User {
+
+    public enum Sex {MALE, FEMALE};
 
     @Id
     @GeneratedValue
@@ -20,48 +26,73 @@ public class User {
     @OneToOne(mappedBy = "owner", cascade = CascadeType.ALL)
     private Group ownedGroup;
 
+    @Column(name = "e_mail")
+    private String email;
+
+    @Column(name = "uni_id")
+    private Long uniId;
+
+    @Column(name = "password")
+    private String password;
+
+    @Column(name = "sex")
+    private Sex sex;
+
+    @Column(name = "phone")
+    private String phone;
+
+    @Column(name = "language")
+    private String lang;
+
+    @Column(name = "max_neighbors_num")
+    private Long maxNeighborsNum;
+
+
 //    @OneToOne
 //    private UserPreferences userPreferences;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinTable(
             name = "user_habbits",
             joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "habbit_id", referencedColumnName = "id")}
     )
-    private List<Habbit> habbitList;
+    private List<Habbit> habbitList = new ArrayList<>();
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinTable(
             name = "trusted_knot",
             joinColumns = {@JoinColumn(name = "trusted_user_id", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "trusted_group_id", referencedColumnName = "id")}
     )
-    private List<Group> whereIsTrusted;
+    private List<Group> whereIsTrusted = new ArrayList<>();
 
-    @ManyToMany
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "untrusted_knot",
             joinColumns = {@JoinColumn(name = "untrusted_user_id", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "untrusted_group_id", referencedColumnName = "id")}
     )
-    private List<Group> whereIsUntrusted;
+    private List<Group> whereIsUntrusted = new ArrayList<>();
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(
             name = "current_city_id"
     )
     private City currentCity;
 
+    @Column(name = "add_info")
+    private String aditionalInfo;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(
             name = "native_city_id"
     )
     private City nativeCity;
 
-    @Column(name = "uni_id") // TODO: find uni db
-    private Long uniId;
 
     @OneToMany(mappedBy = "user")
     private List<UserLanguage> userLanguageList;
@@ -76,6 +107,30 @@ public class User {
 
     public String getFirstName() {
         return firstName;
+    }
+
+    public Sex getSex() {
+        return sex;
+    }
+
+    public void setSex(Sex sex) {
+        this.sex = sex;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getLang() {
+        return lang;
+    }
+
+    public void setLang(String lang) {
+        this.lang = lang;
     }
 
     public void setFirstName(String firstName) {
@@ -130,6 +185,14 @@ public class User {
         this.currentCity = currentCity;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public List<UserLanguage> getUserLanguageList() {
         return userLanguageList;
     }
@@ -152,6 +215,23 @@ public class User {
 
     public void setUniId(Long uniId) {
         this.uniId = uniId;
+    }
+
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getAditionalInfo() {
+        return aditionalInfo;
+    }
+
+    public void setAditionalInfo(String aditionalInfo) {
+        this.aditionalInfo = aditionalInfo;
     }
 
     public User() {}

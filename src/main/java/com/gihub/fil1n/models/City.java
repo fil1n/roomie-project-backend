@@ -1,5 +1,7 @@
 package com.gihub.fil1n.models;
 
+import org.jetbrains.annotations.NotNull;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -29,6 +31,9 @@ public class City {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "nativeCity")
     private List<User> nativeUserList;
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "city")
+    private List<Group> groupsCityList;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "currentCity")
     private List<User>  currentUserList;
 
@@ -42,6 +47,14 @@ public class City {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public List<Group> getGroupsCityList() {
+        return groupsCityList;
+    }
+
+    public void setGroupsCityList(List<Group> groupsCityList) {
+        this.groupsCityList = groupsCityList;
     }
 
     public Long getRegionId() {
@@ -106,6 +119,23 @@ public class City {
 
     public void setCurrentUserList(List<User> currentUserList) {
         this.currentUserList = currentUserList;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if(!(o instanceof City)) {
+            return false;
+        }
+
+        if(o == this) {
+            return true;
+        }
+
+        if(((City) o).getName() == this.getName()) {
+            return true;
+        }
+
+        return false;
     }
 
     public City() {}
