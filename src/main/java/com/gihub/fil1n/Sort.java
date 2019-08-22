@@ -32,6 +32,8 @@ public class Sort {
     }
 
     public static ArrayList<Group> makeSugarSort(Group exampleGroup, ArrayList<City> filtredList) {
+        Double rate = 100.0d;
+
         return null;
     }
 
