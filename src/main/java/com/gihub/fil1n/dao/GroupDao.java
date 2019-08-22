@@ -13,13 +13,10 @@ import javax.persistence.criteria.Root;
 import java.util.List;
 
 public class GroupDao {
-    private Session session;
-    private Transaction transaction;
-
     public void addGroup(@NotNull Group group) {
         try {
-            session = HibernateInit.getSessionFactory().openSession();
-            transaction = session.beginTransaction();
+            Session session = HibernateInit.getSessionFactory().openSession();
+            Transaction transaction = session.beginTransaction();
             session.save(group);
             transaction.commit();
             session.close();
@@ -28,12 +25,12 @@ public class GroupDao {
         }
     }
 
-    public Group getGroup(@NotNull String id) {
+    public Group getGroupById(@NotNull String id) throws Exception {
         try {
             Long groupId = Long.valueOf(id);
-            session = HibernateInit.getSessionFactory().openSession();
-            transaction = session.beginTransaction();
-            Group group = session.get(Group.class, groupId);
+            Session session = HibernateInit.getSessionFactory().openSession();
+            Transaction transaction = session.beginTransaction();
+            Group group = (Group) session.get(Group.class, groupId);
             transaction.commit();
             session.close();
 
@@ -42,15 +39,14 @@ public class GroupDao {
             e.printStackTrace();
         }
 
-        return null;
+        throw new Exception();
     }
 
     public void deleteGroup(@NotNull String id) {
         try {
-            Long groupId = Long.valueOf(id);
-            session = HibernateInit.getSessionFactory().openSession();
-            transaction = session.beginTransaction();
-            session.delete(getGroup(id));
+            Session session = HibernateInit.getSessionFactory().openSession();
+            Transaction transaction = session.beginTransaction();
+            session.delete(getGroupById(id));
             transaction.commit();
             session.close();
         } catch (Exception e) {
@@ -61,8 +57,8 @@ public class GroupDao {
 
     public void updateGroup(@NotNull Group group) {
         try {
-            session = HibernateInit.getSessionFactory().openSession();
-            transaction = session.beginTransaction();
+            Session session = HibernateInit.getSessionFactory().openSession();
+            Transaction transaction = session.beginTransaction();
             session.update(group);
             transaction.commit();
             session.close();
@@ -74,8 +70,7 @@ public class GroupDao {
     public List<Group> getAllGroups() throws Exception {
 
         try {
-            session = HibernateInit.getSessionFactory().openSession();
-            transaction = session.beginTransaction();
+            Session session = HibernateInit.getSessionFactory().openSession();
 
             CriteriaBuilder builder = session.getCriteriaBuilder();
             CriteriaQuery<Group> query = builder.createQuery(Group.class);
@@ -83,6 +78,7 @@ public class GroupDao {
             query.select(root);
             Query<Group> q = session.createQuery(query);
             List<Group> groups = q.getResultList();
+            session.close();
             return groups;
         } catch (Exception e) {
             e.printStackTrace();
