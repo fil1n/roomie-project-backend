@@ -29,11 +29,15 @@ public class User {
     @Column(name = "e_mail")
     private String email;
 
-    @Column(name = "uni_id")
-    private Long uniId;
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "faculty_id")
+    private Faculty faculty;
 
     @Column(name = "password")
     private String password;
+
+    @OneToOne(mappedBy = "owner", cascade = CascadeType.ALL)
+    private Image avatar;
 
     @Column(name = "sex")
     private Sex sex;
@@ -85,7 +89,7 @@ public class User {
     private City currentCity;
 
     @Column(name = "add_info")
-    private String aditionalInfo;
+    private String additionalInfo;
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(
@@ -123,6 +127,16 @@ public class User {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public Image getAvatar() { return avatar; }
+
+    public Faculty getFaculty() { return faculty; }
+
+    public void setFaculty(Faculty faculty) { this.faculty = faculty; }
+
+    public void setAvatar(Image avatar) {
+        this.avatar = avatar;
     }
 
     public String getLang() {
@@ -173,6 +187,14 @@ public class User {
         return whereIsUntrusted;
     }
 
+    public Long getMaxNeighborsNum() {
+        return maxNeighborsNum;
+    }
+
+    public void setMaxNeighborsNum(Long maxNeighborsNum) {
+        this.maxNeighborsNum = maxNeighborsNum;
+    }
+
     public void setWhereIsUntrusted(List<Group> whereIsUntrusted) {
         this.whereIsUntrusted = whereIsUntrusted;
     }
@@ -209,15 +231,6 @@ public class User {
         this.nativeCity = nativeCity;
     }
 
-    public Long getUniId() {
-        return uniId;
-    }
-
-    public void setUniId(Long uniId) {
-        this.uniId = uniId;
-    }
-
-
     public String getEmail() {
         return email;
     }
@@ -226,12 +239,12 @@ public class User {
         this.email = email;
     }
 
-    public String getAditionalInfo() {
-        return aditionalInfo;
+    public String getAdditionalInfo() {
+        return additionalInfo;
     }
 
-    public void setAditionalInfo(String aditionalInfo) {
-        this.aditionalInfo = aditionalInfo;
+    public void setAdditionalInfo(String additionalInfo) {
+        this.additionalInfo = additionalInfo;
     }
 
     public User() {}
