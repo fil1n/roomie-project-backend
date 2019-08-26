@@ -1,6 +1,7 @@
 package com.gihub.fil1n;
 
 import com.gihub.fil1n.handlers.GroupCRUD;
+import com.gihub.fil1n.handlers.ImageCRUD;
 import com.gihub.fil1n.handlers.UserCRUD;
 import com.gihub.fil1n.jacksonClasses.JavalinJacksonUtils;
 import io.javalin.Javalin;
@@ -29,6 +30,8 @@ public class Main {
                     app.get("/group/:id", ctx -> GroupCRUD.getGroup(ctx.pathParam("id"), ctx));
                     app.post("/group", ctx -> GroupCRUD.addGroup(ctx));
                     app.delete("/user/:id", ctx -> UserCRUD.deleteUserById(ctx.pathParam("id")));
+                    app.get("/img/:id", ctx -> ImageCRUD.getImageById(ctx.pathParam("id"), ctx));
+                    app.post("/image", ctx -> ImageCRUD.uploadImage(ctx));
                 }
         );
 
