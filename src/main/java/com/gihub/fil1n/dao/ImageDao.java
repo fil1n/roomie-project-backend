@@ -38,4 +38,23 @@ public class ImageDao {
         }
     }
 
+    public Image getImageById(@NotNull Long id) throws Exception {
+        Transaction transaction;
+        Session session;
+
+        try {
+            session = HibernateInit.getSessionFactory().openSession();
+            transaction = session.beginTransaction();
+            Image image = session.get(Image.class, id);
+            transaction.commit();
+            session.close();
+
+            return image;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        throw new Exception();
+    }
+
 }
