@@ -22,7 +22,9 @@ public class HibernateInit {
                     .addAnnotatedClass(UserLanguage.class).addAnnotatedClass(Group.class)
             .addAnnotatedClass(Question.class).addAnnotatedClass(CommunicationType.class)
                     .addAnnotatedClass(Habbit.class).addAnnotatedClass(UserPreferences.class).
-                    addAnnotatedClass(LangPreferences.class).addAnnotatedClass(Country.class).addAnnotatedClass(City.class);
+                    addAnnotatedClass(LangPreferences.class).addAnnotatedClass(Country.class).
+                    addAnnotatedClass(City.class).addAnnotatedClass(Image.class).addAnnotatedClass(Faculty.class).
+                    addAnnotatedClass(University.class);
 
             sessionFactory = sources.buildMetadata().buildSessionFactory();
         }catch (Exception e) {
