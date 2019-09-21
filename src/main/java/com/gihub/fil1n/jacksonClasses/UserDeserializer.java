@@ -30,7 +30,7 @@ public class UserDesirializer extends StdDeserializer<User> {
         user.setLastName(node.get("last_name").asText());
         user.setPassword(CryptoUtils.cryptString(node.get("password").asText()));
         user.setEmail(node.get("email").asText());
-        user.setAditionalInfo(node.get("add_info").asText());
+        user.setAdditionalInfo(node.get("add_info").asText());
         user.setLang(node.get("lang").asText());
         CityDao dao = new CityDao();
         user.setCurrentCity(dao.getByName(node.get("curr_city").asText()));
