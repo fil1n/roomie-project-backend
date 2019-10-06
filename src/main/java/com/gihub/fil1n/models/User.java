@@ -29,6 +29,9 @@ public class User {
     @Column(name = "e_mail")
     private String email;
 
+    @Column(name = "photo")
+    private byte[] photo;
+
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "faculty_id")
     private Faculty faculty;
@@ -41,6 +44,12 @@ public class User {
 
     @Column(name = "sex")
     private Sex sex;
+
+    @Column(name = "age")
+    private Integer age;
+
+    @Column(name = "user_info")
+    private String userInfo;
 
     @Column(name = "phone")
     private String phone;
@@ -247,5 +256,28 @@ public class User {
         this.additionalInfo = additionalInfo;
     }
 
+    public Integer getAge() {
+        return age;
+    }
+
+    public void setAge(Integer age) {
+        this.age = age;
+    }
+
+    public String getUserInfo() {
+        return userInfo;
+    }
+
+    public void setUserInfo(String userInfo) {
+        this.userInfo = userInfo;
+    }
+
+    public byte[] getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(byte[] photo) {
+        this.photo = photo;
+    }
     public User() {}
 }
