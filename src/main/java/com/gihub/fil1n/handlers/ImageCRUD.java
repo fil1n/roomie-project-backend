@@ -2,7 +2,7 @@ package com.gihub.fil1n.handlers;
 
 import com.gihub.fil1n.dao.ImageDao;
 import com.gihub.fil1n.models.Image;
-import io.javalin.Context;
+import io.javalin.http.Context;
 import org.jetbrains.annotations.NotNull;
 
 public class ImageCRUD {

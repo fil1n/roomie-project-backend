@@ -36,7 +36,7 @@ public class GroupSerializerForAuthenticatedUsers extends StdSerializer<Group> {
                                 try {
                                     jsonGenerator.writeStartObject();
                                         jsonGenerator.writeNumberField("id", member.getId());
-                                        jsonGenerator.writeStringField("name", member.getFirstName() + member.getLastName());
+                                        jsonGenerator.writeStringField("name", member.getName());
                                         jsonGenerator.writeNumberField("age", member.getAge());
                                         jsonGenerator.writeStringField("userInfo", member.getUserInfo());
                                         jsonGenerator.writeStringField("photo", Base64.getEncoder().encodeToString(member.getPhoto()));
@@ -54,7 +54,7 @@ public class GroupSerializerForAuthenticatedUsers extends StdSerializer<Group> {
                     try {
                         jsonGenerator.writeStartObject();
                         jsonGenerator.writeNumberField("id", member.getId());
-                        jsonGenerator.writeStringField("name", member.getFirstName() + member.getLastName());
+                        jsonGenerator.writeStringField("name", member.getName());
                         jsonGenerator.writeNumberField("age", member.getAge());
                         jsonGenerator.writeStringField("userInfo", member.getUserInfo());
                         jsonGenerator.writeStringField("photo", Base64.getEncoder().encodeToString(member.getPhoto()));

@@ -4,6 +4,7 @@ import com.gihub.fil1n.dao.GroupDao;
 import com.gihub.fil1n.models.City;
 import com.gihub.fil1n.models.Group;
 import kotlin.Pair;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -22,7 +23,7 @@ public class Sort {
             ArrayList<Group> allGroups = (ArrayList) dao.getAllGroups();
 
             for (int i = 0; i < allGroups.size(); ++i) {
-                if (allGroups.get(i).getCity().equals(exampleGroup.getCity()) && allGroups.get(i).isDateOfLivingProper(exampleGroup.getSettlementDate(), exampleGroup.getEjectionDate())) {
+                if (allGroups.get(i).getCity().equals(exampleGroup.getCity())) {
                     filteredGroupList.add(allGroups.get(i));
                 }
             }
@@ -49,7 +50,7 @@ public class Sort {
         for(int i = 0; i < reference.getTrustedUsers().size(); ++i) {
             reference.getTrustedUsers().get(i).getUserLanguageList().forEach(
                     userLanguage -> {
-                        requiredLangs.add(userLanguage.getLangName());
+                        requiredLangs.add(userLanguage.getName());
                     }
             );
 
@@ -62,7 +63,7 @@ public class Sort {
         for(int i = 0; i < given.getTrustedUsers().size(); ++i) {
             given.getTrustedUsers().get(i).getUserLanguageList().forEach(
                     userLanguage ->  {
-                        givenLangs.add(userLanguage.getLangName());
+                        givenLangs.add(userLanguage.getName());
                     }
             );
 
@@ -111,7 +112,7 @@ public class Sort {
         return result;
     }
 
-    public static ArrayList<Group> getUserRecommendedGroup(ArrayList<Group> filtered, Group reference) {
+    private static ArrayList<Group> getUserRecommendedGroup(ArrayList<Group> filtered, Group reference) {
         ArrayList<Pair<Double, Group>> unsortedList = new ArrayList<>();
         ArrayList<Group> result = new ArrayList<>();
 
@@ -129,6 +130,16 @@ public class Sort {
         return result;
     }
 
+
+    public static ArrayList<Group> getRecommendedGroups(@NotNull Group example) throws Exception {
+        try {
+            return getUserRecommendedGroup((ArrayList<Group>) dao.getAllGroups(), example);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        throw  new Exception();
+    }
 
     private static Comparator< Pair<Double, Group> > getComp() {
         Comparator comp = new Comparator<Pair<Double, Group>>() {

@@ -1,23 +1,52 @@
 package com.gihub.fil1n.handlers;
 
+import com.gihub.fil1n.Authentication;
+import com.gihub.fil1n.Sort;
 import com.gihub.fil1n.dao.GroupDao;
+import com.gihub.fil1n.dao.UserDao;
+import com.gihub.fil1n.jacksonClasses.JavalinJacksonUtils;
 import com.gihub.fil1n.models.Group;
-import io.javalin.Context;
+import com.gihub.fil1n.models.User;
+import io.javalin.http.Context;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class GroupCRUD {
 
     private static GroupDao dao = new GroupDao();
+    private static UserDao userDao = new UserDao();
 
     public static void getGroup(@NotNull String id, @NotNull Context ctx) {
         try {
-            Long groupId = Long.valueOf(id);
-            Group group = dao.getGroup(id);
-            ctx.json(group).status(200);
-            return;
+
+            String email = ctx.basicAuthCredentials().getUsername();
+            String password = ctx.basicAuthCredentials().getPassword();
+
+            Group group = dao.getGroupById(id);
+
+            if(!Authentication.isPasswordCorrect(email, password)) {
+                String result = JavalinJacksonUtils.getDefaultGroupMapper().writeValueAsString(group);
+                ctx.json(result);
+                return;
+            }
+
+            try {
+                User user = userDao.getByLogin(email).get(0);
+
+                if (group.getTrustedUsers().contains(user)) {
+                    String result = JavalinJacksonUtils.getGroupMapperForGroupmates().writeValueAsString(group);
+                    ctx.json(result);
+                    return;
+                }
+
+                String result = JavalinJacksonUtils.getGroupMapperForAuthenticatedUsers().writeValueAsString(group);
+                ctx.json(result);
+                return;
+            }catch (Exception e) {
+                e.printStackTrace();
+            }
+
         }catch (Exception e) {
             e.printStackTrace();
         }
@@ -25,6 +54,21 @@ public class GroupCRUD {
 
     public static void addGroup(@NotNull Context context) {
         try {
+            String email = context.basicAuthCredentials().getUsername();
+            String password = context.basicAuthCredentials().getPassword();
+
+            if(!Authentication.isPasswordCorrect(email, password)) {
+                context.status(401);
+                return;
+            }
+
+            User user = userDao.getByLogin(email).get(0);
+
+            if(user.getWhereIsTrusted().size() > 0) {
+                context.status(403);
+                return;
+            }
+
             Group group = context.bodyAsClass(Group.class);
             dao.addGroup(group);
             context.status(200);
@@ -36,6 +80,22 @@ public class GroupCRUD {
 
     public static void deleteGroup(@NotNull String id, @NotNull Context ctx) {
         try {
+            String email = ctx.basicAuthCredentials().getUsername();
+            String password = ctx.basicAuthCredentials().getPassword();
+
+            if(!Authentication.isPasswordCorrect(email, password)) {
+                ctx.status(401);
+                return;
+            }
+
+            User user = userDao.getByLogin(email).get(0);
+            Group group = dao.getGroupById(id);
+
+            if(!user.getOwnedGroup().equals(group)) {
+                ctx.status(403);
+                return;
+            }
+
             dao.deleteGroup(id);
             ctx.status(204);
         }catch (Exception e) {
@@ -46,16 +106,54 @@ public class GroupCRUD {
 
     public static void updateGroup(@NotNull Group group, @NotNull Context ctx) {
         try {
+            String email = ctx.basicAuthCredentials().getUsername();
+            String password = ctx.basicAuthCredentials().getPassword();
+
+            if(!Authentication.isPasswordCorrect(email, password)) {
+                ctx.status(401);
+                return;
+            }
+
+            User user = userDao.getByLogin(email).get(0);
+
+            if(!user.getOwnedGroup().equals(group)) {
+                ctx.status(403);
+                return;
+            }
+
             dao.updateGroup(group);
             ctx.status(200);
-            return;
         }catch (Exception e) {
             e.printStackTrace();
             ctx.status();
         }
     }
 
-    public static void getRequiredGroups(@NotNull Context ctx) throws Exception {
+    public static void getAllGroups(@NotNull Context ctx) {
+        try {
+            ctx.json(dao.getAllGroups());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
+    public static void getRequiredGroups(@NotNull Context ctx) throws Exception {
+        try {
+            String email = ctx.basicAuthCredentials().getUsername();
+            String password = ctx.basicAuthCredentials().getPassword();
+
+            if(!Authentication.isPasswordCorrect(email, password)) {
+                ctx.status(401);
+                return;
+            }
+
+            Group group = ctx.bodyAsClass(Group.class);
+
+            ArrayList<Group> groups = Sort.getRecommendedGroups(group);
+
+            ctx.json(group);
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

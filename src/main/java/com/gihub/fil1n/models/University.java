@@ -14,6 +14,10 @@ public class University {
     @Column(name = "uni_name")
     private String name;
 
+    @ManyToOne
+    @JoinColumn(name = "city_id")
+    private City city;
+
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "university")
     private List<Faculty> facultiesList;
 
@@ -40,6 +44,7 @@ public class University {
     public void setFacultiesList(List<Faculty> facultiesList) {
         this.facultiesList = facultiesList;
     }
+
 
     public University() {
 

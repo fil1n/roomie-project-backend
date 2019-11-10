@@ -19,12 +19,12 @@ public class HibernateInit {
             MetadataSources sources = new MetadataSources(registry);
 
             sources.addPackage("models").addAnnotatedClass(User.class)
-                    .addAnnotatedClass(UserLanguage.class).addAnnotatedClass(Group.class)
+                    .addAnnotatedClass(Group.class)
             .addAnnotatedClass(Question.class).addAnnotatedClass(CommunicationType.class)
                     .addAnnotatedClass(Habbit.class).addAnnotatedClass(UserPreferences.class).
                     addAnnotatedClass(LangPreferences.class).addAnnotatedClass(Country.class).
                     addAnnotatedClass(City.class).addAnnotatedClass(Image.class).addAnnotatedClass(Faculty.class).
-                    addAnnotatedClass(University.class);
+                    addAnnotatedClass(University.class).addAnnotatedClass(Language.class);
 
             sessionFactory = sources.buildMetadata().buildSessionFactory();
         }catch (Exception e) {

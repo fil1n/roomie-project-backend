@@ -1,9 +1,10 @@
 package com.gihub.fil1n.handlers;
 
+import com.gihub.fil1n.Authentication;
 import com.gihub.fil1n.Validator;
 import com.gihub.fil1n.dao.UserDao;
 import com.gihub.fil1n.models.User;
-import io.javalin.Context;
+import io.javalin.http.Context;
 import org.jetbrains.annotations.NotNull;
 
 public class UserCRUD {

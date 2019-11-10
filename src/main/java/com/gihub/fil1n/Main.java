@@ -1,11 +1,8 @@
 package com.gihub.fil1n;
 
-import com.gihub.fil1n.handlers.GroupCRUD;
-import com.gihub.fil1n.handlers.ImageCRUD;
-import com.gihub.fil1n.handlers.UserCRUD;
-import com.gihub.fil1n.jacksonClasses.JavalinJacksonUtils;
+import com.gihub.fil1n.handlers.*;
 import io.javalin.Javalin;
-import io.javalin.json.JavalinJackson;
+
 
 public class Main {
     public static void main(String[] args)  {
@@ -19,24 +16,28 @@ public class Main {
         }
 
 
-        JavalinJackson.configure(JavalinJacksonUtils.getMapper());
-
-        Javalin app = Javalin.create().port(9200).enableDebugLogging();
+        Javalin app = Javalin.create(javalinConfig ->
+                {
+                    javalinConfig.enableDevLogging();
+                });
 
         app.routes(() ->
                 {
-                    app.get("/user/:id", ctx -> UserCRUD.getUserById(ctx.pathParam("id") , ctx));
-                    app.post("/user", ctx -> UserCRUD.addUser(ctx));
-                    app.get("/group/:id", ctx -> GroupCRUD.getGroup(ctx.pathParam("id"), ctx));
-                    app.post("/group", ctx -> GroupCRUD.addGroup(ctx));
-                    app.delete("/user/:id", ctx -> UserCRUD.deleteUserById(ctx.pathParam("id")));
-                    app.get("/img/:id", ctx -> ImageCRUD.getImageById(ctx.pathParam("id"), ctx));
-                    app.post("/image", ctx -> ImageCRUD.uploadImage(ctx));
+                    app.get("/:id", ctx -> GroupCRUD.getGroup(ctx.pathParam("id"), ctx));
+                    app.get("/all_groups", ctx -> GroupCRUD.getAllGroups(ctx));
+                    app.get("/profile/:id", ctx -> UserCRUD.getUserById(ctx.pathParam("id"), ctx));
+                    app.get("/city/:id", ctx -> CityCRUD.getById(ctx.pathParam("id"), ctx));
+                    app.get("/cities/:country", ctx -> CityCRUD.getByCountry(ctx.pathParam("country"), ctx));
+                    app.get("/universities/:city_id", ctx -> UniversityCRUD.getListByCityId(ctx.pathParam("city_id"), ctx));
+                    app.get("/specialities/:universityId", ctx -> UniversityCRUD.getFacultiesByUniversityId(ctx.pathParam("id"), ctx));
+                    app.post("/register", ctx -> UserCRUD.addUser(ctx));
                 }
         );
 
-        app.start();
+        app.start(9200);
     }
 
-    //TODO: add DAO, algo for group search, deploy
+    //TODO: /:cities/country
+    // TODO: /universities/city_id
+    // TODO: Dates in Group.class
 }

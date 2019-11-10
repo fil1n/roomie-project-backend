@@ -17,11 +17,8 @@ public class User {
     @GeneratedValue
     private Long id;
 
-    @Column(name = "first_name")
-    private String firstName;
-
-    @Column(name = "last_name")
-    private String lastName;
+    @Column(name = "user_name")
+    private String name;
 
     @OneToOne(mappedBy = "owner", cascade = CascadeType.ALL)
     private Group ownedGroup;
@@ -45,6 +42,12 @@ public class User {
     @Column(name = "sex")
     private Sex sex;
 
+    @Column(name = "rental_period")
+    private Integer rentalPeriod;
+
+    @Column(name = "birth_date")
+    private String birthDate;
+
     @Column(name = "age")
     private Integer age;
 
@@ -54,12 +57,17 @@ public class User {
     @Column(name = "phone")
     private String phone;
 
+    @Column(name = "max_roommates_number")
+    private Integer maxRoommatesNumber;
+
     @Column(name = "language")
     private String lang;
 
     @Column(name = "max_neighbors_num")
     private Long maxNeighborsNum;
 
+//    @OneToMany(mappedBy = "person")
+//    private List<Question> polls;
 
 //    @OneToOne
 //    private UserPreferences userPreferences;
@@ -106,9 +114,16 @@ public class User {
     )
     private City nativeCity;
 
+    @OneToOne(mappedBy = "person", cascade = CascadeType.ALL)
+    private Question question;
 
-    @OneToMany(mappedBy = "user")
-    private List<UserLanguage> userLanguageList;
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "user_language",
+            joinColumns = {@JoinColumn(name = "curr_user_id")},
+            inverseJoinColumns = {@JoinColumn(name = "lang_id")}
+    )
+    private List<Language> userLanguageList;
 
     public Long getId() {
         return id;
@@ -116,10 +131,6 @@ public class User {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getFirstName() {
-        return firstName;
     }
 
     public Sex getSex() {
@@ -148,24 +159,36 @@ public class User {
         this.avatar = avatar;
     }
 
+    public Integer getRentalPeriod() {
+        return rentalPeriod;
+    }
+
+    public void setRentalPeriod(Integer rentalPeriod) {
+        this.rentalPeriod = rentalPeriod;
+    }
+
+    public Integer getMaxRoommatesNumber() {
+        return maxRoommatesNumber;
+    }
+
+    public void setMaxRoommatesNumber(Integer maxRoommatesNumber) {
+        this.maxRoommatesNumber = maxRoommatesNumber;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getLang() {
         return lang;
     }
 
     public void setLang(String lang) {
         this.lang = lang;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
     }
 
     public Group getOwnedGroup() {
@@ -224,14 +247,6 @@ public class User {
         this.password = password;
     }
 
-    public List<UserLanguage> getUserLanguageList() {
-        return userLanguageList;
-    }
-
-    public void setUserLanguageList(List<UserLanguage> userLanguageList) {
-        this.userLanguageList = userLanguageList;
-    }
-
     public City getNativeCity() {
         return nativeCity;
     }
@@ -276,8 +291,33 @@ public class User {
         return photo;
     }
 
+    public String getBirthDate() {
+        return birthDate;
+    }
+
+    public void setBirthDate(String birthDate) {
+        this.birthDate = birthDate;
+    }
+
+    public Question getQuestion() {
+        return question;
+    }
+
+    public void setQuestion(Question question) {
+        this.question = question;
+    }
+
     public void setPhoto(byte[] photo) {
         this.photo = photo;
     }
+
+    public List<Language> getUserLanguageList() {
+        return userLanguageList;
+    }
+
+    public void setUserLanguageList(List<Language> userLanguageList) {
+        this.userLanguageList = userLanguageList;
+    }
+
     public User() {}
 }

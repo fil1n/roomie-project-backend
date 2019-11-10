@@ -52,12 +52,10 @@ public class GroupDeserializer extends StdDeserializer<Group> {
             e.printStackTrace();
         }
 
+        group.setMAX_NUM_OF_USERS(node.get("max_num").asLong());
         group.setName(node.get("name").asText());
         group.setOwner(user);
         group.setCity(city);
-        group.setSettlementDate(sDate);
-        group.setEjectionDate(eDate);
-
         return group;
     }
 }

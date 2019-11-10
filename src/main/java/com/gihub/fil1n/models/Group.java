@@ -30,7 +30,6 @@ public class Group {
     @JoinColumn(name = "city_id")
     private City city;
 
-
     @LazyCollection(LazyCollectionOption.FALSE)
     @ManyToMany(mappedBy = "whereIsTrusted", fetch = FetchType.LAZY)
     private List<User> trustedUsers;
@@ -43,24 +42,16 @@ public class Group {
     @OneToMany(mappedBy = "knot")
     private List<CommunicationType> communicationTypes;
 
-    @Column(name = "settlement_date")
-    private LocalDate settlementDate;
+    @Column(name = "rentalPeriod")
+    private Integer rentalPeriod; // in months
 
-    @Column(name = "ejection_date")
-    private LocalDate ejectionDate;
+    @Column(name = "group_info")
+    private String groupInfo;
 
-    public boolean isDateOfLivingProper(LocalDate start, LocalDate end) {
-
-        if(getSettlementDate().equals(start) && getEjectionDate().equals(end)) {
-            return true;
-        }
-
-        if(getSettlementDate().isBefore(start) && getEjectionDate().isAfter(end)) {
-            return true;
-        }
-
-        return false;
-    }
+    @OneToMany (
+            mappedBy = "groupPolls"
+    )
+    private List<Question> polls;
 
     public Long getId() {
         return id;
@@ -88,6 +79,14 @@ public class Group {
 
     public String getName() {
         return name;
+    }
+
+    public String getGroupInfo() {
+        return groupInfo;
+    }
+
+    public void setGroupInfo(String groupInfo) {
+        this.groupInfo = groupInfo;
     }
 
     public void setName(String name) {
@@ -126,20 +125,20 @@ public class Group {
         this.communicationTypes = communicationTypes;
     }
 
-    public LocalDate getSettlementDate() {
-        return settlementDate;
+    public Integer getRentalPeriod() {
+        return rentalPeriod;
     }
 
-    public void setSettlementDate(LocalDate settlementDate) {
-        this.settlementDate = settlementDate;
+    public void setRentalPeriod(Integer rentalPeriod) {
+        this.rentalPeriod = rentalPeriod;
     }
 
-    public LocalDate getEjectionDate() {
-        return ejectionDate;
+    public List<Question> getPolls() {
+        return polls;
     }
 
-    public void setEjectionDate(LocalDate ejectionDate) {
-        this.ejectionDate = ejectionDate;
+    public void setPolls(List<Question> polls) {
+        this.polls = polls;
     }
 
     public Group() {}

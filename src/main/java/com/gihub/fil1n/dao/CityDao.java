@@ -2,10 +2,9 @@ package com.gihub.fil1n.dao;
 
 import com.gihub.fil1n.HibernateInit;
 import com.gihub.fil1n.models.City;
-import io.javalin.Context;
+import com.gihub.fil1n.models.Country;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.hibernate.cfg.annotations.QueryBinder;
 import org.jetbrains.annotations.NotNull;
 
 import javax.persistence.Query;
@@ -15,10 +14,11 @@ import javax.persistence.criteria.Root;
 import java.util.List;
 
 public class CityDao {
-    private static Session session;
-    private static Transaction transaction;
 
     public City getByName(@NotNull String name) {
+        Session session;
+        Transaction transaction;
+
         try {
             session = HibernateInit.getSessionFactory().openSession();
             CriteriaBuilder builder = session.getCriteriaBuilder();
@@ -36,7 +36,32 @@ public class CityDao {
         return null;
     }
 
+    public List<City> getByCountry (@NotNull String country) throws Exception {
+        Session session;
+        Transaction transaction;
+
+        try {
+            session = HibernateInit.getSessionFactory().openSession();
+            CriteriaBuilder builder = session.getCriteriaBuilder();
+            CriteriaQuery<Country> query = builder.createQuery(Country.class);
+            Root<Country> root = query.from(Country.class);
+            query.select(root).where(builder.equal(root.get("name"), country));
+            Query q = session.createQuery(query);
+            List<Country> countries = q.getResultList();
+            session.close();
+            return  countries.get(0).getCityList();
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        throw new Exception();
+    }
+
     public List<City> getAll() {
+        Session session;
+        Transaction transaction;
+
+
         try {
             session = HibernateInit.getSessionFactory().openSession();
             CriteriaBuilder builder = session.getCriteriaBuilder();
@@ -53,6 +78,9 @@ public class CityDao {
     }
 
     public void add(@NotNull City city) {
+        Session session;
+        Transaction transaction;
+
         try {
             session = HibernateInit.getSessionFactory().openSession();
             transaction = session.beginTransaction();
@@ -62,6 +90,25 @@ public class CityDao {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public City getById(@NotNull Long id) throws Exception {
+        Session session;
+        Transaction transaction;
+
+        try {
+            session = HibernateInit.getSessionFactory().openSession();
+            transaction = session.beginTransaction();
+            City city = session.get(City.class, id);
+            transaction.commit();
+            session.close();
+
+            return city;
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        throw new Exception();
     }
 
 }

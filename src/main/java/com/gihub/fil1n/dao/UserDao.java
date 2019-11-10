@@ -2,16 +2,22 @@ package com.gihub.fil1n.dao;
 
 import com.gihub.fil1n.HibernateInit;
 import com.gihub.fil1n.models.User;
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.jetbrains.annotations.NotNull;
 
+import javax.persistence.Query;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
+import java.util.List;
+
 public class UserDao {
 
-    private Session session;
-    private Transaction transaction;
-
     public User getById(@NotNull Long id) throws Exception {
+        Session session;
+        Transaction transaction;
 
         try {
             session = HibernateInit.getSessionFactory().openSession();
@@ -19,10 +25,6 @@ public class UserDao {
             User result = session.get(User.class, id);
             transaction.commit();
             session.close();
-
-            if(result == null) {
-                System.out.print("111");
-            }
 
             return result;
         } catch (Exception e) {
@@ -32,7 +34,32 @@ public class UserDao {
         throw new Exception();
     }
 
+    public List<User> getByLogin(@NotNull String email) throws Exception {
+        Transaction transaction;
+        Session session;
+
+        try {
+            session = HibernateInit.getSessionFactory().openSession();
+            CriteriaBuilder builder = session.getCriteriaBuilder();
+            CriteriaQuery<User> query = builder.createQuery(User.class);
+            Root<User> root = query.from(User.class);
+            query.select(root).where(builder.equal(root.get("e_mail"), email));
+            Query q = session.createQuery(query);
+            List<User> userList = q.getResultList();
+            session.close();
+
+            return userList;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        throw new Exception();
+    }
+
+
     public void createUser(@NotNull User user) {
+        Session session;
+        Transaction transaction;
+
         try {
             session = HibernateInit.getSessionFactory().openSession();
             transaction = session.beginTransaction();
@@ -46,6 +73,9 @@ public class UserDao {
 
 
     public void update(@NotNull User user) {
+        Session session;
+        Transaction transaction;
+
         try {
             session = HibernateInit.getSessionFactory().openSession();
             transaction = session.beginTransaction();
@@ -59,6 +89,9 @@ public class UserDao {
     }
 
     public void deleteById(@NotNull Long id) {
+        Session session;
+        Transaction transaction;
+
         try {
             session = HibernateInit.getSessionFactory().openSession();
             transaction = session.beginTransaction();

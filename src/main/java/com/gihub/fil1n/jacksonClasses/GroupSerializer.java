@@ -29,8 +29,7 @@ public class GroupSerializer extends StdSerializer<Group> {
                     member -> {
                         try {
                             jsonGenerator.writeNumberField("id", member.getId());
-                            jsonGenerator.writeStringField("first_name", member.getFirstName());
-                            jsonGenerator.writeStringField("last_name", member.getLastName());
+                            jsonGenerator.writeStringField("name", member.getName());
                         } catch (IOException e) {
                             e.printStackTrace();
                         }

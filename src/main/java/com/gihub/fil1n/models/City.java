@@ -28,6 +28,9 @@ public class City {
     @Column(name = "name")
     private String name;
 
+    @OneToMany(mappedBy = "city")
+    private List<University> universities;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "nativeCity")
     private List<User> nativeUserList;
 
@@ -119,6 +122,14 @@ public class City {
 
     public void setCurrentUserList(List<User> currentUserList) {
         this.currentUserList = currentUserList;
+    }
+
+    public List<University> getUniversities() {
+        return universities;
+    }
+
+    public void setUniversities(List<University> universities) {
+        this.universities = universities;
     }
 
     @Override
