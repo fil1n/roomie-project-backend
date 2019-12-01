@@ -23,6 +23,10 @@ public class JavalinJacksonUtils {
     private static ObjectMapper universityMapper = new ObjectMapper();
     private static SimpleModule facultyModule = new SimpleModule();
     private static ObjectMapper facultyMapper = new ObjectMapper();
+    private static SimpleModule userOwnerModule = new SimpleModule();
+    private static ObjectMapper userOwnerMapper = new ObjectMapper();
+    private static SimpleModule userDeserializerModule = new SimpleModule();
+    private static ObjectMapper userDeserializerMapper = new ObjectMapper();
 
     static {
         try {
@@ -35,6 +39,7 @@ public class JavalinJacksonUtils {
             groupMapperForGroupmates.registerModule(groupModuleForGroupmates);
 
             userModuleForAuthenticatedUsers.addSerializer(User.class, new UserSerializerForAuthenticatedUsers());
+            userMapperForAuthenticatedUsers.registerModule(userModuleForAuthenticatedUsers);
 
             defaultUserModule.addSerializer(User.class, new UserSerializer());
             defaultUserModule.addDeserializer(User.class, new UserDeserializer());
@@ -51,6 +56,12 @@ public class JavalinJacksonUtils {
 
             facultyModule.addSerializer(Faculty.class, new SpecialitySerializer());
             facultyMapper.registerModule(facultyModule);
+
+            userOwnerModule.addSerializer(User.class, new UserSerializerForOwner());
+            userOwnerMapper.registerModule(userOwnerModule);
+
+            userDeserializerModule.addDeserializer(User.class, new UserDeserializer());
+            userDeserializerMapper.registerModule(userDeserializerModule);
         }catch (Exception e) {
             e.printStackTrace();
         }
@@ -62,6 +73,18 @@ public class JavalinJacksonUtils {
 
     public static ObjectMapper getFacultyMapper() {
         return facultyMapper;
+    }
+
+    public static ObjectMapper getUserMapperForAuthenticatedUsers() {
+        return userMapperForAuthenticatedUsers;
+    }
+
+    public static ObjectMapper getUserOwnerMapper() {
+        return userOwnerMapper;
+    }
+
+    public static ObjectMapper getUserDeserializerMapper() {
+        return userDeserializerMapper;
     }
 
     public static ObjectMapper getDefaultUserMapper() {

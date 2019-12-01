@@ -21,12 +21,14 @@ public class CityDao {
 
         try {
             session = HibernateInit.getSessionFactory().openSession();
+            transaction = session.beginTransaction();
             CriteriaBuilder builder = session.getCriteriaBuilder();
             CriteriaQuery<City> query = builder.createQuery(City.class);
             Root<City> root = query.from(City.class);
             query.select(root).where(builder.equal(root.get("name"), name));
             Query q = session.createQuery(query);
             List<City> cityList = q.getResultList();
+            transaction.commit();
             session.close();
             return cityList.get(0);
         } catch (Exception e) {
@@ -64,11 +66,14 @@ public class CityDao {
 
         try {
             session = HibernateInit.getSessionFactory().openSession();
+            transaction = session.beginTransaction();
             CriteriaBuilder builder = session.getCriteriaBuilder();
             CriteriaQuery<City> query = builder.createQuery(City.class);
             Root<City> root = query.from(City.class);
             query.select(root);
             Query q = session.createQuery(query);
+            transaction.commit();
+            session.close();
             return q.getResultList();
         } catch (Exception e) {
             e.printStackTrace();

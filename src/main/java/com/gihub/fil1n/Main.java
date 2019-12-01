@@ -23,7 +23,7 @@ public class Main {
 
         app.routes(() ->
                 {
-                    app.get("/:id", ctx -> GroupCRUD.getGroup(ctx.pathParam("id"), ctx));
+                    app.get("/group/:id", ctx -> GroupCRUD.getGroup(ctx.pathParam("id"), ctx));
                     app.get("/all_groups", ctx -> GroupCRUD.getAllGroups(ctx));
                     app.get("/profile/:id", ctx -> UserCRUD.getUserById(ctx.pathParam("id"), ctx));
                     app.get("/city/:id", ctx -> CityCRUD.getById(ctx.pathParam("id"), ctx));
@@ -31,6 +31,7 @@ public class Main {
                     app.get("/universities/:city_id", ctx -> UniversityCRUD.getListByCityId(ctx.pathParam("city_id"), ctx));
                     app.get("/specialities/:universityId", ctx -> UniversityCRUD.getFacultiesByUniversityId(ctx.pathParam("id"), ctx));
                     app.post("/register", ctx -> UserCRUD.addUser(ctx));
+                    app.post("/creategroup", ctx -> GroupCRUD.addGroup(ctx));
                 }
         );
 

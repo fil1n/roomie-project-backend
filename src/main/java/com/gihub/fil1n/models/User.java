@@ -99,7 +99,7 @@ public class User {
     )
     private List<Group> whereIsUntrusted = new ArrayList<>();
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(
             name = "current_city_id"
     )
@@ -108,7 +108,7 @@ public class User {
     @Column(name = "add_info")
     private String additionalInfo;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(
             name = "native_city_id"
     )
