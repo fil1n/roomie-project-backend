@@ -36,8 +36,8 @@ public class User {
     @Column(name = "password")
     private String password;
 
-//    @OneToOne(mappedBy = "owner", cascade = CascadeType.ALL)
-//    private Image avatar;
+    @OneToOne(mappedBy = "owner", cascade = CascadeType.ALL)
+    private Image avatar;
 
     @Column(name = "sex")
     private Sex sex;
@@ -91,7 +91,7 @@ public class User {
     private List<Group> whereIsTrusted = new ArrayList<>();
 
     @LazyCollection(LazyCollectionOption.FALSE)
-    @ManyToMany()
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "untrusted_knot",
             joinColumns = {@JoinColumn(name = "untrusted_user_id", referencedColumnName = "id")},
@@ -117,7 +117,6 @@ public class User {
     @OneToOne(mappedBy = "person", cascade = CascadeType.ALL)
     private Question question;
 
-    @LazyCollection(LazyCollectionOption.FALSE)
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "user_language",
@@ -150,15 +149,15 @@ public class User {
         this.phone = phone;
     }
 
-//    public Image getAvatar() { return avatar; }
+    public Image getAvatar() { return avatar; }
 
     public Faculty getFaculty() { return faculty; }
 
     public void setFaculty(Faculty faculty) { this.faculty = faculty; }
 
-//    public void setAvatar(Image avatar) {
-//        this.avatar = avatar;
-//    }
+    public void setAvatar(Image avatar) {
+        this.avatar = avatar;
+    }
 
     public Integer getRentalPeriod() {
         return rentalPeriod;
