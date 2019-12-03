@@ -14,13 +14,10 @@ public class City {
     private Long id;
 
     @Column(name = "region_id")
-    private Long regionId;
-
-    @Column(name = "country_id")
-    private Long countryId;
+    private Long regionId; // for future
 
     @Column(name = "latitude")
-    private Double latitude;
+    private Double latitude; // for future
 
     @Column(name = "longitude")
     private Double longitude;
@@ -66,14 +63,6 @@ public class City {
 
     public void setRegionId(Long regionId) {
         this.regionId = regionId;
-    }
-
-    public Long getCountryId() {
-        return countryId;
-    }
-
-    public void setCountryId(Long countryId) {
-        this.countryId = countryId;
     }
 
     public Double getLatitude() {

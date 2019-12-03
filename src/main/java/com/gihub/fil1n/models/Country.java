@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name = "counties")
+@Table(name = "countries")
 public class Country {
 
     @Id
@@ -13,9 +13,6 @@ public class Country {
 
     @Column(name = "name_e")
     private String name;
-
-    @Column(name = "code_e")
-    private String code;
 
     @OneToMany(mappedBy = "country")
     private List<City> cityList;
@@ -38,14 +35,6 @@ public class Country {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
     }
 
     public List<City> getCityList() {
