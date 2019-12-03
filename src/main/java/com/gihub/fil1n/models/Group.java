@@ -31,11 +31,11 @@ public class Group {
     private City city;
 
     @LazyCollection(LazyCollectionOption.FALSE)
-    @ManyToMany(mappedBy = "whereIsTrusted")
+    @ManyToMany(mappedBy = "whereIsTrusted", fetch = FetchType.LAZY)
     private List<User> trustedUsers;
 
     @LazyCollection(LazyCollectionOption.FALSE)
-    @ManyToMany(mappedBy = "whereIsUntrusted")
+    @ManyToMany(mappedBy = "whereIsUntrusted", fetch = FetchType.LAZY)
     private List<User> untrustedFollowers;
 
     @LazyCollection(LazyCollectionOption.FALSE)
