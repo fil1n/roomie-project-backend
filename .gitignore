@@ -2,3 +2,4 @@ global_db.mysql
 psqldb.dump
 fastpush.sh
 agreement.txt
+database.dia.autosave
