@@ -11,15 +11,8 @@ public class CountryCRUD {
 
     public static void getAllCountries(@NotNull Context ctx) {
         try {
-            String email = ctx.basicAuthCredentials().getUsername();
-            String password = ctx.basicAuthCredentials().getPassword();
-
-            if(Authentication.isPasswordCorrect(email, password)) {
-                ctx.status(403);
-                return;
-            }
-
-            String result = JavalinJacksonUtils.getGroupMapperForAuthenticatedUsers().writeValueAsString(dao.getAllCountries());
+            
+            String result = JavalinJacksonUtils.getCountryMapper().writeValueAsString(dao.getAllCountries());
 
             ctx.json(result);
         }catch (Exception e) {
