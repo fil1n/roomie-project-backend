@@ -3,3 +3,5 @@ psqldb.dump
 fastpush.sh
 agreement.txt
 database.dia.autosave
+database.dia
+countrydb.sqlite
