@@ -30,7 +30,7 @@ public class CityCRUD {
         try {
             List<City> cities = dao.getByCountry(name);
             String result = JavalinJacksonUtils.getCityMapper().writeValueAsString(cities);
-            ctx.json(result).header("Access-Control-Allow-Origin", "*");
+            ctx.json(result).header("Access-Control-Allow-Origin", "");
         }catch (Exception e) {
             e.printStackTrace();
         }
