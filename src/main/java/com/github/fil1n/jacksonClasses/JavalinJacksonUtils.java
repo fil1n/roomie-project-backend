@@ -1,5 +1,6 @@
 package com.github.fil1n.jacksonClasses;
 
+import com.fasterxml.jackson.databind.Module;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.github.fil1n.models.*;
@@ -28,9 +29,14 @@ public class JavalinJacksonUtils {
     private static ObjectMapper userDeserializerMapper = new ObjectMapper();
     private static SimpleModule countryModule = new SimpleModule();
     private static ObjectMapper countryMapper = new ObjectMapper();
+    private static ObjectMapper languageMapper = new ObjectMapper();
+    private static SimpleModule languageModule = new SimpleModule();
 
     static {
         try {
+            languageModule.addSerializer(Language.class, new LanguageSerializer());
+            languageMapper.registerModule(languageModule);
+
             groupModuleForAuthenticatedUsers.addSerializer(Group.class, new GroupSerializerForAuthenticatedUsers());
             groupModuleForAuthenticatedUsers.addDeserializer(Group.class, new GroupDeserializer());
             groupMapperForAuthenticatedUsers.registerModule(groupModuleForAuthenticatedUsers);
@@ -73,6 +79,10 @@ public class JavalinJacksonUtils {
 
     public static ObjectMapper getUniversityMapper() {
         return universityMapper;
+    }
+
+    public static ObjectMapper getLanguageMapper() {
+        return languageMapper;
     }
 
     public static ObjectMapper getFacultyMapper() {
