@@ -1,5 +1,9 @@
 package com.github.fil1n.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -18,7 +22,8 @@ public class University {
     @JoinColumn(name = "city_id")
     private City city;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "university")
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @OneToMany(mappedBy = "university")
     private List<Faculty> facultiesList;
 
     public Long getId() {

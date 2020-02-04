@@ -1,5 +1,7 @@
 package com.github.fil1n.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -23,19 +25,19 @@ public class City {
     @Column(name = "name")
     private String name;
 
-    @OneToMany(mappedBy = "city")
+    @OneToMany(mappedBy = "city", fetch = FetchType.EAGER)
     private List<University> universities;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "nativeCity")
+    @OneToMany(mappedBy = "nativeCity")
     private List<User> nativeUserList;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "city")
+    @OneToMany(mappedBy = "city")
     private List<Group> groupsCityList;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "currentCity")
+    @OneToMany(mappedBy = "currentCity")
     private List<User>  currentUserList;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne()
     @JoinColumn(name = "citys_country_id")
     private Country country;
 

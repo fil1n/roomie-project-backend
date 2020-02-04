@@ -88,7 +88,7 @@ public class User {
     private List<Group> whereIsTrusted = new ArrayList<>();
 
     @LazyCollection(LazyCollectionOption.FALSE)
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany()
     @JoinTable(
             name = "untrusted_knot",
             joinColumns = {@JoinColumn(name = "untrusted_user_id", referencedColumnName = "id")},
@@ -96,7 +96,7 @@ public class User {
     )
     private List<Group> whereIsUntrusted = new ArrayList<>();
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne()
     @JoinColumn(
             name = "current_city_id"
     )
@@ -105,7 +105,7 @@ public class User {
     @Column(name = "add_info")
     private String additionalInfo;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne()
     @JoinColumn(
             name = "native_city_id"
     )
