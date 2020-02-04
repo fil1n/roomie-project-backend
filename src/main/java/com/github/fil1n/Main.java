@@ -20,6 +20,7 @@ public class Main {
         Javalin app = Javalin.create(javalinConfig ->
                 {
                     javalinConfig.enableDevLogging();
+                    javalinConfig.enableCorsForAllOrigins();
                 });
 
         app.routes(() ->
@@ -30,26 +31,20 @@ public class Main {
                     app.get("/city/:id", ctx -> CityCRUD.getById(ctx.pathParam("id"), ctx));
                     app.get("/cities/:country", ctx -> CityCRUD.getByCountry(ctx.pathParam("country"), ctx));
                     app.get("/universities/:city_id", ctx -> UniversityCRUD.getListByCityId(ctx.pathParam("city_id"), ctx));
-                    app.get("/specialities/:universityId", ctx -> UniversityCRUD.getFacultiesByUniversityId(ctx.pathParam("id"), ctx));
+                    app.get("/specialities/:universityId", ctx -> UniversityCRUD.getFacultiesByUniversityId(ctx.pathParam("universityId"), ctx));
                     app.post("/register", ctx -> UserCRUD.addUser(ctx));
                     app.post("/creategroup", ctx -> GroupCRUD.addGroup(ctx));
                     app.get("/allcountries", ctx -> CountryCRUD.getAllCountries(ctx));
-                    app.get("/member/:memberid/:groupid", ctx -> UserCRUD.memberInfo(ctx, ctx.pathParam("memberid"), ctx.pathParam("groupid")));
+                    app.get("/member/:memberId/:groupId", ctx -> UserCRUD.memberInfo(ctx, ctx.pathParam("memberId"), ctx.pathParam("groupId")));
                     app.delete("/user/:id", ctx -> UserCRUD.deleteUserById(ctx.pathParam("id") , ctx));
                     app.delete("/group/:id", ctx -> GroupCRUD.deleteGroup(ctx.pathParam("id"), ctx));
                     app.patch("/user/:id", ctx -> UserCRUD.patchUser(ctx));
                     app.patch("/group/:id", ctx -> GroupCRUD.updateGroup(ctx));
+                    app.get("/login", ctx -> AuthCRUD.isLoginValid(ctx));
+                    app.get("/languages", ctx -> LanguageCRUD.getAll(ctx));
                 }
         );
 
         app.start(9301);
     }
-
-    //TODO: /:cities/country
-    // TODO: /universities/city_id
-    // TODO: Dates in Group.class
-    // TODO:  +request on user { "isMember" : "TRUE"}
-    // TODO: + send age user
-    // TODO: + mailgun
-    // TODO: all groups
 }
