@@ -30,17 +30,6 @@ public class UniversityDao {
         throw new Exception();
     }
 
-    public List<University> getByCityId(@NotNull String id) throws Exception {
-        try {
-            Long cityId = Long.valueOf(id);
-            return cityDao.getById(cityId).getUniversities();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        throw new Exception();
-    }
-
     public List<Faculty> getFacultiesByUniversityId(@NotNull String id) throws Exception {
         Session session;
         Transaction transaction;
