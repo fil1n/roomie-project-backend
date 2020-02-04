@@ -1,6 +1,7 @@
 package com.github.fil1n.handlers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.fil1n.dao.CityDao;
 import com.github.fil1n.dao.UniversityDao;
 import com.github.fil1n.jacksonClasses.JavalinJacksonUtils;
 import com.github.fil1n.models.Faculty;
@@ -12,6 +13,7 @@ import java.util.List;
 
 public class UniversityCRUD {
     private static UniversityDao dao = new UniversityDao();
+    private static CityDao cityDao = new CityDao();
 
 
     public static void getListByCity(@NotNull String name, @NotNull Context ctx) {
@@ -26,7 +28,8 @@ public class UniversityCRUD {
 
     public static void getListByCityId(@NotNull String id, @NotNull Context ctx) {
         try {
-            List<University> universities = dao.getByCityId(id);
+            Long longId = Long.valueOf(id);
+            List<University> universities = cityDao.getById(longId).getUniversities();
             ObjectMapper mapper = JavalinJacksonUtils.getUniversityMapper();
             ctx.json(mapper.writeValueAsString(universities));
         }catch (Exception e) {

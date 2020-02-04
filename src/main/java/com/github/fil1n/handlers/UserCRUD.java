@@ -58,6 +58,7 @@ public class UserCRUD {
             }
 
             dao.createUser(user);
+            ctx.json("{ \"id\" : " + String.valueOf(dao.getByLogin(user.getEmail())) +"}");
         }catch (Exception e) {
             e.printStackTrace();
         }
