@@ -46,7 +46,8 @@ public class UserDeserializer extends StdDeserializer<User> {
         user.setCurrentCity(cityDao.getByName(node.get("currentCity").asText()));
         user.setRentalPeriod(node.get("rentalPeriod").asInt());
         user.setMaxRoommatesNumber(node.get("maxRoommatesNumber").asInt());
-        user.setPhoto(Base64.getDecoder().decode(node.get("photo").asText()));
+        user.setBirthDate(node.get("birthDate").asText());
+        user.setAge(User.calculateAge(user.getBirthDate()));
 
         try {
             user.setFaculty(universityDao.getFacultyByName(node.get("speciality").asText()));

@@ -28,10 +28,13 @@ public class UserSerializerForOwner extends StdSerializer<User> {
         jsonGenerator.writeNumberField("age", user.getAge());
         jsonGenerator.writeStringField("city", user.getNativeCity().getName());
         jsonGenerator.writeStringField("userInfo", user.getUserInfo());
-        jsonGenerator.writeStringField("photo", Base64.getEncoder().encodeToString(user.getPhoto()));
+        if(user.getPhoto() != null) {
+            jsonGenerator.writeStringField("photo", Base64.getEncoder().encodeToString(user.getPhoto()));
+        }
         jsonGenerator.writeStringField("birthDate", user.getBirthDate());
         jsonGenerator.writeStringField("university", user.getFaculty().getUniversity().getName());
         jsonGenerator.writeStringField("speciality", user.getFaculty().getName());
+
 
         jsonGenerator.writeArrayFieldStart("languages");
         for(int i = 0; i < user.getUserLanguageList().size(); ++i) {

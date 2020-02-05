@@ -24,7 +24,9 @@ public class LoginSerializer extends StdSerializer<User> {
         jsonGenerator.writeStartObject();
         jsonGenerator.writeNumberField("id", user.getId());
         jsonGenerator.writeStringField("name", user.getName());
-        jsonGenerator.writeStringField("photo", Base64.getEncoder().encodeToString(user.getPhoto()));
+        if(user.getPhoto() != null) {
+            jsonGenerator.writeStringField("photo", Base64.getEncoder().encodeToString(user.getPhoto()));
+        }
         jsonGenerator.writeEndObject();
     }
 }

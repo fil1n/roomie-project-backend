@@ -39,8 +39,10 @@ public class GroupSerializerForAuthenticatedUsers extends StdSerializer<Group> {
                                         jsonGenerator.writeStringField("name", member.getName());
                                         jsonGenerator.writeNumberField("age", member.getAge());
                                         jsonGenerator.writeStringField("userInfo", member.getUserInfo());
-                                        jsonGenerator.writeStringField("photo", Base64.getEncoder().encodeToString(member.getPhoto()));
-                                    jsonGenerator.writeEndObject();
+                                        if(member.getPhoto() != null) {
+                                            jsonGenerator.writeStringField("photo", Base64.getEncoder().encodeToString(member.getPhoto()));
+                                        }
+                                        jsonGenerator.writeEndObject();
                                 } catch (IOException e) {
                                     e.printStackTrace();
                                 }
@@ -57,7 +59,9 @@ public class GroupSerializerForAuthenticatedUsers extends StdSerializer<Group> {
                         jsonGenerator.writeStringField("name", member.getName());
                         jsonGenerator.writeNumberField("age", member.getAge());
                         jsonGenerator.writeStringField("userInfo", member.getUserInfo());
-                        jsonGenerator.writeStringField("photo", Base64.getEncoder().encodeToString(member.getPhoto()));
+                        if(member.getPhoto() != null) {
+                            jsonGenerator.writeStringField("photo", Base64.getEncoder().encodeToString(member.getPhoto()));
+                        }
                         jsonGenerator.writeEndObject();
                     } catch (IOException e) {
                         e.printStackTrace();

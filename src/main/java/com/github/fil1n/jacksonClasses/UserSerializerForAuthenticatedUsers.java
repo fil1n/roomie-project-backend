@@ -21,6 +21,7 @@ public class UserSerializerForAuthenticatedUsers extends StdSerializer<User> {
 
     @Override
     public void serialize(User user, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException {
+         user.setAge(User.calculateAge(user.getBirthDate()));
          jsonGenerator.writeStartObject();
 
          jsonGenerator.writeNumberField("id", user.getId());
@@ -28,7 +29,9 @@ public class UserSerializerForAuthenticatedUsers extends StdSerializer<User> {
          jsonGenerator.writeNumberField("age", user.getAge());
          jsonGenerator.writeStringField("city", user.getNativeCity().getName());
          jsonGenerator.writeStringField("userInfo", user.getUserInfo());
-         jsonGenerator.writeStringField("photo", Base64.getEncoder().encodeToString(user.getPhoto()));
+         if(user.getPhoto() != null) {
+             jsonGenerator.writeStringField("photo", Base64.getEncoder().encodeToString(user.getPhoto()));
+         }
          jsonGenerator.writeStringField("birthDate", user.getBirthDate());
          jsonGenerator.writeStringField("university", user.getFaculty().getUniversity().getName());
          jsonGenerator.writeStringField("speciality", user.getFaculty().getName());
