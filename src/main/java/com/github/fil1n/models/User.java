@@ -23,7 +23,7 @@ public class User {
     @OneToOne(mappedBy = "owner", cascade = CascadeType.ALL)
     private Group ownedGroup;
 
-    @Column(name = "e_mail")
+    @Column(name = "user_email")
     private String email;
 
     @Column(name = "photo")
@@ -62,9 +62,6 @@ public class User {
 
     @Column(name = "max_neighbors_num")
     private Long maxNeighborsNum;
-
-//    @OneToMany(mappedBy = "person")
-//    private List<Question> polls;
 
 //    @OneToOne
 //    private UserPreferences userPreferences;
