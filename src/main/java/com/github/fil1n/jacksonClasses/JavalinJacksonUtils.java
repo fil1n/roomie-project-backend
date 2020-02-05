@@ -31,9 +31,14 @@ public class JavalinJacksonUtils {
     private static ObjectMapper countryMapper = new ObjectMapper();
     private static ObjectMapper languageMapper = new ObjectMapper();
     private static SimpleModule languageModule = new SimpleModule();
+    private static SimpleModule loginModule = new SimpleModule();
+    private static ObjectMapper loginMapper = new ObjectMapper();
 
     static {
         try {
+            loginModule.addSerializer(User.class, new LoginSerializer());
+            loginMapper.registerModule(loginModule);
+
             languageModule.addSerializer(Language.class, new LanguageSerializer());
             languageMapper.registerModule(languageModule);
 
@@ -83,6 +88,10 @@ public class JavalinJacksonUtils {
 
     public static ObjectMapper getLanguageMapper() {
         return languageMapper;
+    }
+
+    public static ObjectMapper getLoginMapper() {
+        return loginMapper;
     }
 
     public static ObjectMapper getFacultyMapper() {

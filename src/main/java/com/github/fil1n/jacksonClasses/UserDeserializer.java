@@ -15,6 +15,7 @@ import com.github.fil1n.models.User;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 
 public class UserDeserializer extends StdDeserializer<User> {
@@ -45,6 +46,7 @@ public class UserDeserializer extends StdDeserializer<User> {
         user.setCurrentCity(cityDao.getByName(node.get("currentCity").asText()));
         user.setRentalPeriod(node.get("rentalPeriod").asInt());
         user.setMaxRoommatesNumber(node.get("maxRoommatesNumber").asInt());
+        user.setPhoto(Base64.getDecoder().decode(node.get("photo").asText()));
 
         try {
             user.setFaculty(universityDao.getFacultyByName(node.get("speciality").asText()));
