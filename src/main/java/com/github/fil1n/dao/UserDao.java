@@ -42,7 +42,7 @@ public class UserDao {
             CriteriaBuilder builder = session.getCriteriaBuilder();
             CriteriaQuery<User> query = builder.createQuery(User.class);
             Root<User> root = query.from(User.class);
-            query.select(root).where(builder.equal(root.get("e_mail"), email));
+            query.select(root).where(builder.equal(root.get("email"), email));
             Query q = session.createQuery(query);
             List<User> userList = q.getResultList();
             session.close();
