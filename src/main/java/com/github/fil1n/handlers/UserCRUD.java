@@ -63,7 +63,7 @@ public class UserCRUD {
             }
 
             dao.createUser(user);
-            ctx.json("{ \"id\" : " + String.valueOf(dao.getByLogin(user.getEmail()).get(0).getId()) +"}");
+            ctx.json(JavalinJacksonUtils.getLoginMapper().writeValueAsString(dao.getByLogin(user.getEmail())));
         }catch (Exception e) {
             e.printStackTrace();
         }
