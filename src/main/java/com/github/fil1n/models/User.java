@@ -4,6 +4,7 @@ import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -111,6 +112,7 @@ public class User {
     @OneToOne(mappedBy = "person", cascade = CascadeType.ALL)
     private Question question;
 
+    @LazyCollection(LazyCollectionOption.FALSE)
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "user_language",
@@ -306,6 +308,13 @@ public class User {
     public void setUserLanguageList(List<Language> userLanguageList) {
         this.userLanguageList = userLanguageList;
     }
+
+    public static Integer calculateAge(String birthDate) {
+        LocalDate current = LocalDate.now();
+        LocalDate userBirthDate = LocalDate.parse(birthDate);
+        return current.getYear() - userBirthDate.getYear();
+    }
+
 
     public User() {}
 }
