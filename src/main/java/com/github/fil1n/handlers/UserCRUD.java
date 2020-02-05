@@ -52,13 +52,18 @@ public class UserCRUD {
 
             User user = JavalinJacksonUtils.getUserDeserializerMapper().readValue(ctx.body(), User.class);
 
+            if(dao.getByLogin(user.getEmail()).size() > 0) {
+                ctx.status(409);
+                return;
+            }
+
             if(!Validator.isEmailValid(user.getEmail())) {
                 ctx.status(422);
                 return;
             }
 
             dao.createUser(user);
-            ctx.json("{ \"id\" : " + String.valueOf(dao.getByLogin(user.getEmail())) +"}");
+            ctx.json("{ \"id\" : " + String.valueOf(dao.getByLogin(user.getEmail()).get(0).getId()) +"}");
         }catch (Exception e) {
             e.printStackTrace();
         }
