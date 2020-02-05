@@ -34,6 +34,7 @@ public class UserCRUD {
                 return;
             }
 
+            user = dao.getById(Long.valueOf(id));
             if(CryptoUtils.isEqual(password, user.getPassword()) && user.getEmail().equals(email)) {
                 String result = JavalinJacksonUtils.getUserOwnerMapper().writeValueAsString(user);
                 ctx.json(result).status(200);

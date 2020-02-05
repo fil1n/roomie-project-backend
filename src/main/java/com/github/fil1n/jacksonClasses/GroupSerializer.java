@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 import com.github.fil1n.models.Group;
 
 import java.io.IOException;
+import java.util.Base64;
 
 public class GroupSerializer extends StdSerializer<Group> {
     protected GroupSerializer(Class<Group> t) {
@@ -24,12 +25,16 @@ public class GroupSerializer extends StdSerializer<Group> {
         jsonGenerator.writeNumberField("num_of_trusted_members", group.getTrustedUsers().size());
 
         jsonGenerator.writeArrayFieldStart("trusted_members");
-        jsonGenerator.writeStartObject();
             group.getTrustedUsers().forEach(
                     member -> {
                         try {
+                            jsonGenerator.writeStartObject();
                             jsonGenerator.writeNumberField("id", member.getId());
                             jsonGenerator.writeStringField("name", member.getName());
+                            if(member.getPhoto() != null) {
+                                jsonGenerator.writeStringField("photo", Base64.getEncoder().encodeToString(member.getPhoto()));
+                            }
+                            jsonGenerator.writeEndObject();
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
@@ -37,7 +42,6 @@ public class GroupSerializer extends StdSerializer<Group> {
                     }
             );
 
-        jsonGenerator.writeEndObject();
         jsonGenerator.writeEndArray();
 
         jsonGenerator.writeEndObject();
