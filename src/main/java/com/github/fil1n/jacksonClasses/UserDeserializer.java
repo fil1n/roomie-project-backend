@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.github.fil1n.CryptoUtils;
 import com.github.fil1n.dao.CityDao;
+import com.github.fil1n.dao.LanguageDao;
 import com.github.fil1n.dao.UniversityDao;
 import com.github.fil1n.models.Habbit;
 import com.github.fil1n.models.Language;
@@ -21,6 +22,7 @@ import java.util.List;
 public class UserDeserializer extends StdDeserializer<User> {
     private static CityDao cityDao = new CityDao();
     private static UniversityDao universityDao = new UniversityDao();
+    private static LanguageDao languageDao = new LanguageDao();
 
     protected UserDeserializer(Class<?> vc) {
         super(vc);
@@ -36,48 +38,61 @@ public class UserDeserializer extends StdDeserializer<User> {
         JsonNode node =  jsonParser.getCodec().readTree(jsonParser);
         User user = new User();
 
-        user.setName(node.get("name").asText());
+        user.setName(node.get("userName").asText());
         user.setPassword(CryptoUtils.cryptString(node.get("password").asText()));
         user.setEmail(node.get("email").asText());
         user.setAdditionalInfo(node.get("userInfo").asText());
         user.setSex(User.Sex.valueOf(node.get("sex").asText()));
-        user.setNativeCity(cityDao.getByName(node.get("birthCity").asText()));
+
+        try {
+            user.setNativeCity(cityDao.getById(node.get("birthCity").asLong()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         user.setPhone(node.get("phoneNumber").asText());
-        user.setCurrentCity(cityDao.getByName(node.get("currentCity").asText()));
+
+        try {
+            user.setFaculty(universityDao.getFacultyById(node.get("speciality").asLong()));
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        try {
+            user.setCurrentCity(cityDao.getById(node.get("currentCity").asLong()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         user.setRentalPeriod(node.get("rentalPeriod").asInt());
         user.setMaxRoommatesNumber(node.get("maxRoommatesNumber").asInt());
         user.setBirthDate(node.get("birthDate").asText());
         user.setAge(User.calculateAge(user.getBirthDate()));
 
         try {
-            user.setFaculty(universityDao.getFacultyByName(node.get("speciality").asText()));
+            user.setUniversity(universityDao.getById(node.get("university").asLong()));
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-
         List<Language> langs = new ArrayList<>();
-        Language language = new Language();
+        final Language[] language = {new Language()};
 
         ArrayNode newNode = (ArrayNode) node.withArray("languages");
         newNode.forEach(element -> {
-            language.setId(element.get("id").asLong());
-            language.setName(element.get("name").asText());
-            langs.add(language);
+            try {
+                language[0] = languageDao.getById(element.get("id").asLong());
+                langs.add(language[0]);
+            }catch (Exception e) {
+                e.printStackTrace();
+            }
         });
 
         user.setUserLanguageList(langs);
 
-        List<Habbit> userHabits = new ArrayList<>();
-        Habbit habbit = new Habbit();
+        String habbitList = node.get("badHabits").asText();
 
-        ArrayNode secondNode = (ArrayNode) node.withArray("badHabits");
-        secondNode.forEach(element -> {
-            habbit.setName(element.get("name").asText());
-            habbit.setId(element.get("id").asLong());
-            userHabits.add(habbit);
-        });
-
+        user.setHabbitList(User.convertUserHabitsToArray(habbitList));
 
         return user;
     }
