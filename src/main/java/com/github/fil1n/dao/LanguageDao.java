@@ -32,4 +32,45 @@ public class LanguageDao {
 
         throw new Exception();
     }
+
+    public Language getByName(String name) throws Exception {
+        Session session;
+        Transaction transaction;
+
+        try {
+            session = HibernateInit.getSessionFactory().openSession();
+            transaction = session.beginTransaction();
+            CriteriaBuilder builder = session.getCriteriaBuilder();
+            CriteriaQuery<Language> query = builder.createQuery(Language.class);
+            Root<Language> root = query.from(Language.class);
+            query.select(root).where(builder.equal(root.get("name"), name));
+            javax.persistence.Query q = session.createQuery(query);
+            List<Language> cityList = q.getResultList();
+            transaction.commit();
+            session.close();
+            return cityList.get(0);
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        throw new Exception();
+    }
+
+    public Language getById(Long id) throws Exception {
+        Session session;
+        Transaction transaction;
+
+        try {
+            session = HibernateInit.getSessionFactory().openSession();
+            transaction = session.beginTransaction();
+            Language result = session.get(Language.class, id);
+            transaction.commit();
+            session.close();
+            return result;
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        throw new Exception();
+    }
+
 }

@@ -17,6 +17,24 @@ import java.util.List;
 public class UniversityDao {
     private static CityDao cityDao = new CityDao();
 
+    public University getById(@NotNull Long id) throws Exception {
+        Session session;
+        Transaction transaction;
+
+        try {
+            session = HibernateInit.getSessionFactory().openSession();
+            transaction = session.beginTransaction();
+            University university = session.get(University.class, id);
+            transaction.commit();
+            session.close();
+            return university;
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        throw new Exception();
+    }
+
 
     public List<University> getByCity(@NotNull String city) throws Exception {
 
@@ -67,6 +85,23 @@ public class UniversityDao {
             e.printStackTrace();
         }
 
+        throw new Exception();
+    }
+
+    public Faculty getFacultyById(@NotNull Long id) throws Exception {
+        Session session;
+        Transaction transaction;
+
+        try {
+            session = HibernateInit.getSessionFactory().openSession();
+            transaction = session.beginTransaction();
+            Faculty faculty = session.get(Faculty.class, id);
+            transaction.commit();
+            session.close();
+            return faculty;
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
         throw new Exception();
     }
 
