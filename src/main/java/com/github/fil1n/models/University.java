@@ -6,6 +6,7 @@ import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "university")
@@ -21,6 +22,10 @@ public class University {
     @ManyToOne
     @JoinColumn(name = "city_id")
     private City city;
+
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @OneToMany(mappedBy = "university")
+    private Set<User> students;
 
     @LazyCollection(LazyCollectionOption.FALSE)
     @OneToMany(mappedBy = "university")

@@ -1,5 +1,6 @@
 package com.github.fil1n.models;
 
+import com.github.fil1n.dao.HabbitDao;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
@@ -60,6 +61,10 @@ public class User {
 
     @Column(name = "language")
     private String lang;
+
+    @ManyToOne
+    @JoinColumn(name = "university_id")
+    private University university;
 
     @Column(name = "max_neighbors_num")
     private Long maxNeighborsNum;
@@ -163,6 +168,14 @@ public class User {
 
     public void setMaxRoommatesNumber(Integer maxRoommatesNumber) {
         this.maxRoommatesNumber = maxRoommatesNumber;
+    }
+
+    public University getUniversity() {
+        return university;
+    }
+
+    public void setUniversity(University university) {
+        this.university = university;
     }
 
     public String getName() {
@@ -315,6 +328,20 @@ public class User {
         return current.getYear() - userBirthDate.getYear();
     }
 
+    public static List<Habbit> convertUserHabitsToArray(String raw) {
+        HabbitDao dao = new HabbitDao();
+        String[] temp = raw.split(" ");
+        List<Habbit> result = new ArrayList<>();
+        for(int i = 0; i < temp.length; ++i) {
+            try {
+                result.add(dao.getByName(temp[i]));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        return result;
+    }
 
     public User() {}
 }
