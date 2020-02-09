@@ -10,13 +10,11 @@ import com.github.fil1n.CryptoUtils;
 import com.github.fil1n.dao.CityDao;
 import com.github.fil1n.dao.LanguageDao;
 import com.github.fil1n.dao.UniversityDao;
-import com.github.fil1n.models.Habbit;
 import com.github.fil1n.models.Language;
 import com.github.fil1n.models.User;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.List;
 
 public class UserDeserializer extends StdDeserializer<User> {
@@ -44,18 +42,22 @@ public class UserDeserializer extends StdDeserializer<User> {
         user.setAdditionalInfo(node.get("userInfo").asText());
         user.setSex(User.Sex.valueOf(node.get("sex").asText()));
 
-        try {
-            user.setNativeCity(cityDao.getById(node.get("birthCity").asLong()));
-        } catch (Exception e) {
-            e.printStackTrace();
+        if(node.get("birthCity") != null) {
+            try {
+                user.setNativeCity(cityDao.getById(node.get("birthCity").asLong()));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
         user.setPhone(node.get("phoneNumber").asText());
 
-        try {
-            user.setFaculty(universityDao.getFacultyById(node.get("speciality").asLong()));
-        }catch (Exception e) {
-            e.printStackTrace();
+        if(node.get("speciality") != null) {
+            try {
+                user.setFaculty(universityDao.getFacultyById(node.get("speciality").asLong()));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
         try {
@@ -64,15 +66,18 @@ public class UserDeserializer extends StdDeserializer<User> {
             e.printStackTrace();
         }
 
+
         user.setRentalPeriod(node.get("rentalPeriod").asInt());
         user.setMaxRoommatesNumber(node.get("maxRoommatesNumber").asInt());
         user.setBirthDate(node.get("birthDate").asText());
         user.setAge(User.calculateAge(user.getBirthDate()));
 
-        try {
-            user.setUniversity(universityDao.getById(node.get("university").asLong()));
-        } catch (Exception e) {
-            e.printStackTrace();
+        if(node.get("university") != null) {
+            try {
+                user.setUniversity(universityDao.getById(node.get("university").asLong()));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
         List<Language> langs = new ArrayList<>();
@@ -90,9 +95,10 @@ public class UserDeserializer extends StdDeserializer<User> {
 
         user.setUserLanguageList(langs);
 
-        String habbitList = node.get("badHabits").asText();
-
-        user.setHabbitList(User.convertUserHabitsToArray(habbitList));
+        if(node.get("badHabits") != null) {
+            String habbitList = node.get("badHabits").asText();
+            user.setHabbitList(User.convertUserHabitsToArray(habbitList));
+        }
 
         return user;
     }

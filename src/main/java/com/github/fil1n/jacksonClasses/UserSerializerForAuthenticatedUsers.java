@@ -27,14 +27,28 @@ public class UserSerializerForAuthenticatedUsers extends StdSerializer<User> {
          jsonGenerator.writeNumberField("id", user.getId());
          jsonGenerator.writeStringField("name", user.getName());
          jsonGenerator.writeNumberField("age", user.getAge());
-         jsonGenerator.writeStringField("city", user.getNativeCity().getName());
-         jsonGenerator.writeStringField("userInfo", user.getUserInfo());
+
+         if(user.getNativeCity() != null) {
+             jsonGenerator.writeStringField("city", user.getNativeCity().getName());
+         }
+
+         if(user.getUserInfo() != null) {
+             jsonGenerator.writeStringField("userInfo", user.getUserInfo());
+         }
+
          if(user.getPhoto() != null) {
              jsonGenerator.writeStringField("photo", Base64.getEncoder().encodeToString(user.getPhoto()));
          }
+
          jsonGenerator.writeStringField("birthDate", user.getBirthDate());
-         jsonGenerator.writeStringField("university", user.getFaculty().getUniversity().getName());
-         jsonGenerator.writeStringField("speciality", user.getFaculty().getName());
+
+         if(user.getUniversity() != null) {
+             jsonGenerator.writeStringField("university", user.getFaculty().getUniversity().getName());
+         }
+
+         if(user.getFaculty() != null) {
+             jsonGenerator.writeStringField("speciality", user.getFaculty().getName());
+         }
 
          jsonGenerator.writeArrayFieldStart("languages");
             for(int i = 0; i < user.getUserLanguageList().size(); ++i) {
@@ -42,11 +56,13 @@ public class UserSerializerForAuthenticatedUsers extends StdSerializer<User> {
             }
          jsonGenerator.writeEndArray();
 
-         jsonGenerator.writeArrayFieldStart("badHabits");
-            for(int i = 0; i < user.getHabbitList().size(); ++i) {
-                jsonGenerator.writeString(user.getHabbitList().get(i).getName());
-            }
-         jsonGenerator.writeEndArray();
+         if(user.getHabbitList() != null) {
+                jsonGenerator.writeArrayFieldStart("badHabits");
+                for (int i = 0; i < user.getHabbitList().size(); ++i) {
+                    jsonGenerator.writeString(user.getHabbitList().get(i).getName());
+                }
+                jsonGenerator.writeEndArray();
+         }
 
          jsonGenerator.writeStringField("phoneNumber", user.getPhone());
 
