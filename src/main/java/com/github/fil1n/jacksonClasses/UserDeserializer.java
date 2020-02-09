@@ -16,8 +16,10 @@ import com.github.fil1n.models.User;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicLong;
 
 public class UserDeserializer extends StdDeserializer<User> {
+
     private static CityDao cityDao = new CityDao();
     private static UniversityDao universityDao = new UniversityDao();
     private static LanguageDao languageDao = new LanguageDao();
@@ -81,13 +83,13 @@ public class UserDeserializer extends StdDeserializer<User> {
         }
 
         List<Language> langs = new ArrayList<>();
-        final Language[] language = {new Language()};
-
         ArrayNode newNode = (ArrayNode) node.withArray("languages");
         newNode.forEach(element -> {
             try {
-                language[0] = languageDao.getById(element.get("id").asLong());
-                langs.add(language[0]);
+                long id = element.get("id").asLong();
+                Language lang = new Language();
+                lang = languageDao.getById(id);
+                langs.add(lang);
             }catch (Exception e) {
                 e.printStackTrace();
             }

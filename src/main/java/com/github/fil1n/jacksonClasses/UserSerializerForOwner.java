@@ -42,7 +42,8 @@ public class UserSerializerForOwner extends StdSerializer<User> {
         jsonGenerator.writeStringField("birthDate", user.getBirthDate());
 
         if(user.getUniversity() != null) {
-            jsonGenerator.writeStringField("university", user.getFaculty().getUniversity().getName());
+            jsonGenerator.writeNumberField("universityId", user.getUniversity().getId());
+            jsonGenerator.writeStringField("universityName", user.getUniversity().getName());
         }
 
         if(user.getFaculty() != null) {
@@ -51,14 +52,19 @@ public class UserSerializerForOwner extends StdSerializer<User> {
 
         jsonGenerator.writeArrayFieldStart("languages");
         for(int i = 0; i < user.getUserLanguageList().size(); ++i) {
-            jsonGenerator.writeString(user.getUserLanguageList().get(i).getName());
+            jsonGenerator.writeStartObject();
+            jsonGenerator.writeNumberField("languageId", user.getUserLanguageList().get(i).getId());
+            jsonGenerator.writeStringField("languageName", user.getUserLanguageList().get(i).getName());
+            jsonGenerator.writeEndObject();
         }
         jsonGenerator.writeEndArray();
 
         if(user.getHabbitList() != null) {
             jsonGenerator.writeArrayFieldStart("badHabits");
             for (int i = 0; i < user.getHabbitList().size(); ++i) {
-                jsonGenerator.writeString(user.getHabbitList().get(i).getName());
+                jsonGenerator.writeStartObject();
+                jsonGenerator.writeStringField("habitName", user.getHabbitList().get(i).getName());
+                jsonGenerator.writeEndObject();
             }
             jsonGenerator.writeEndArray();
         }
