@@ -35,10 +35,10 @@ public class GroupDeserializer extends StdDeserializer<Group> {
         City city = new City();
 
         Long userId = node.get("ownerId").asLong();
-        String cityName = node.get("cityName").asText();
+        Long cityId = node.get("cityId").asLong();
 
         try {
-            city = cityDao.getByName(cityName);
+            city = cityDao.getById(cityId);
         }catch (Exception e) {
             e.printStackTrace();
         }
