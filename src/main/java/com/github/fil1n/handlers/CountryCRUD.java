@@ -17,7 +17,7 @@ public class CountryCRUD {
 
             String result = JavalinJacksonUtils.getCountryMapper().writeValueAsString(dao.getAllCountries());
 
-            ctx.json(result).header("Access-Control-Allow-Origin", "");
+            ctx.json(result);
         }catch (Exception e) {
             e.printStackTrace();
         }
