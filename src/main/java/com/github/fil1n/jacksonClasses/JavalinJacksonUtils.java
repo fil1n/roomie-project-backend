@@ -58,6 +58,7 @@ public class JavalinJacksonUtils {
             defaultUserMapper.registerModule(defaultUserModule);
 
             defaultGroupModule.addSerializer(Group.class, new GroupSerializer());
+            defaultGroupModule.addDeserializer(Group.class, new GroupDeserializer());
             defaultGroupMapper.registerModule(defaultGroupModule);
 
             cityModule.addSerializer(City.class, new CitySerializer());
