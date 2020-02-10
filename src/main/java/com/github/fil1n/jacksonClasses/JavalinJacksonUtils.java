@@ -33,6 +33,8 @@ public class JavalinJacksonUtils {
     private static SimpleModule languageModule = new SimpleModule();
     private static SimpleModule loginModule = new SimpleModule();
     private static ObjectMapper loginMapper = new ObjectMapper();
+    private static SimpleModule userPatchModule = new SimpleModule();
+    private static ObjectMapper userPatchMapper = new ObjectMapper();
 
     static {
         try {
@@ -78,6 +80,9 @@ public class JavalinJacksonUtils {
 
             countryModule.addSerializer(Country.class, new CountrySerializer());
             countryMapper.registerModule(countryModule);
+
+            userPatchModule.addDeserializer(User.class, new UserPatchDeserializer());
+            userPatchMapper.registerModule(userPatchModule);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -106,6 +111,8 @@ public class JavalinJacksonUtils {
     public static ObjectMapper getUserOwnerMapper() {
         return userOwnerMapper;
     }
+
+    public static ObjectMapper getUserPatchMapper() { return userPatchMapper; }
 
     public static ObjectMapper getUserDeserializerMapper() {
         return userDeserializerMapper;
