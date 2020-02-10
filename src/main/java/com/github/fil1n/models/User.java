@@ -5,6 +5,7 @@ import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
+import java.lang.reflect.Array;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -330,14 +331,13 @@ public class User {
 
     public static List<Habbit> convertUserHabitsToArray(String raw) {
         HabbitDao dao = new HabbitDao();
-        String[] temp = raw.split(" ");
-        List<Habbit> result = new ArrayList<>();
-        for(int i = 0; i < temp.length; ++i) {
-            try {
-                result.add(dao.getByName(temp[i]));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+
+        ArrayList<Habbit> result = new ArrayList<>();
+
+        try {
+            result.add(dao.getByName(raw));
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
         return result;
