@@ -34,7 +34,13 @@ public class GroupCRUD {
             try {
                 User user = userDao.getByLogin(email).get(0);
 
-                if (group.getTrustedUsers().contains(user)) {
+                System.out.println(user.getId());
+                if(user.getId() == group.getOwner().getId()) {
+                    ctx.json(JavalinJacksonUtils.getGroupMapperForGroupmates().writeValueAsString(group));
+                    return;
+                }
+
+                if (group.getTrustedUsers() != null && group.getTrustedUsers().contains(user)) {
                     String result = JavalinJacksonUtils.getGroupMapperForGroupmates().writeValueAsString(group);
                     ctx.json(result);
                     return;
@@ -69,7 +75,7 @@ public class GroupCRUD {
                 return;
             }
 
-            Group group = context.bodyAsClass(Group.class);
+            Group group = JavalinJacksonUtils.getDefaultGroupMapper().readValue(context.body(), Group.class);
             dao.addGroup(group);
             context.status(200);
         }catch (Exception e) {
