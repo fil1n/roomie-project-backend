@@ -22,6 +22,12 @@ public class Group {
     @Column(name = "max_num_of_users")
     private Long MAX_NUM_OF_USERS;
 
+    @Column(name = "telegram_link")
+    private String telegramLink;
+
+    @Column(name = "whatsapp_link")
+    private String whatsappLink;
+
     @Column(name = "name")
     private String name;
 
@@ -139,6 +145,22 @@ public class Group {
 
     public void setPolls(List<Question> polls) {
         this.polls = polls;
+    }
+
+    public String getTelegramLink() {
+        return telegramLink;
+    }
+
+    public void setTelegramLink(String telegramLink) {
+        this.telegramLink = telegramLink;
+    }
+
+    public String getWhatsappLink() {
+        return whatsappLink;
+    }
+
+    public void setWhatsappLink(String whatsappLink) {
+        this.whatsappLink = whatsappLink;
     }
 
     public Group() {}
