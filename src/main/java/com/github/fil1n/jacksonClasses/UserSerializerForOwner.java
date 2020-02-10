@@ -28,7 +28,11 @@ public class UserSerializerForOwner extends StdSerializer<User> {
         jsonGenerator.writeNumberField("age", user.getAge());
 
         if(user.getNativeCity() != null) {
-            jsonGenerator.writeStringField("city", user.getNativeCity().getName());
+            jsonGenerator.writeStringField("birthCity", user.getNativeCity().getName());
+        }
+
+        if(user.getCurrentCity() != null) {
+            jsonGenerator.writeStringField("currentCity", user.getCurrentCity().getName());
         }
 
         if(user.getUserInfo() != null) {
