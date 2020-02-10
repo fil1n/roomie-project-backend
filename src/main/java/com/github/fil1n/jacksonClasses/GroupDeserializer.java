@@ -49,11 +49,13 @@ public class GroupDeserializer extends StdDeserializer<Group> {
             e.printStackTrace();
         }
 
-        group.setMAX_NUM_OF_USERS(node.get("maxNum").asLong());
+        group.setMAX_NUM_OF_USERS(node.get("maxNumOfRoommates").asLong());
         group.setName(node.get("name").asText());
         group.setOwner(user);
         group.setRentalPeriod(node.get("rentalPeriod").asInt());
         group.setCity(city);
+        group.setTelegramLink(node.get("telegramLink").asText());
+        group.setWhatsappLink(node.get("whatsappLink").asText());
         return group;
     }
 }
