@@ -124,13 +124,14 @@ public class UserCRUD {
             password = ctx.basicAuthCredentials().getPassword();
 
             if(!Authentication.isPasswordCorrect(email, password)) {
+                System.out.println("HERERRER " + email + " " + password);
                 ctx.status(403);
                 return;
             }
 
-            User user = ctx.bodyAsClass(User.class);
+            User user = JavalinJacksonUtils.getUserPatchMapper().readValue(ctx.body(), User.class);
 
-            if(!user.getEmail().equals(email) || !CryptoUtils.isEqual(password, user.getPassword())) {
+            if(!dao.getById(user.getId()).getEmail().equals(email)) {
                 ctx.status(403);
                 return;
             }
