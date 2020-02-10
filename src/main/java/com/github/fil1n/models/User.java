@@ -67,9 +67,6 @@ public class User {
     @JoinColumn(name = "university_id")
     private University university;
 
-    @Column(name = "max_neighbors_num")
-    private Long maxNeighborsNum;
-
 //    @OneToOne
 //    private UserPreferences userPreferences;
 
@@ -100,14 +97,15 @@ public class User {
     )
     private List<Group> whereIsUntrusted = new ArrayList<>();
 
+    @ManyToOne
+    @JoinColumn(name = "country_id")
+    private Country birthCountry;
+
     @ManyToOne()
     @JoinColumn(
             name = "current_city_id"
     )
     private City currentCity;
-
-    @Column(name = "add_info")
-    private String additionalInfo;
 
     @ManyToOne()
     @JoinColumn(
@@ -223,14 +221,6 @@ public class User {
         return whereIsUntrusted;
     }
 
-    public Long getMaxNeighborsNum() {
-        return maxNeighborsNum;
-    }
-
-    public void setMaxNeighborsNum(Long maxNeighborsNum) {
-        this.maxNeighborsNum = maxNeighborsNum;
-    }
-
     public void setWhereIsUntrusted(List<Group> whereIsUntrusted) {
         this.whereIsUntrusted = whereIsUntrusted;
     }
@@ -265,14 +255,6 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getAdditionalInfo() {
-        return additionalInfo;
-    }
-
-    public void setAdditionalInfo(String additionalInfo) {
-        this.additionalInfo = additionalInfo;
     }
 
     public Integer getAge() {
@@ -321,6 +303,14 @@ public class User {
 
     public void setUserLanguageList(List<Language> userLanguageList) {
         this.userLanguageList = userLanguageList;
+    }
+
+    public Country getBirthCountry() {
+        return birthCountry;
+    }
+
+    public void setBirthCountry(Country birthCountry) {
+        this.birthCountry = birthCountry;
     }
 
     public static Integer calculateAge(String birthDate) {

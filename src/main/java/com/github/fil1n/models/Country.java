@@ -5,6 +5,7 @@ import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "countries")
@@ -20,6 +21,9 @@ public class Country {
     @LazyCollection(LazyCollectionOption.FALSE)
     @OneToMany(mappedBy = "country")
     private List<City> cityList;
+
+    @OneToMany(mappedBy = "birthCountry")
+    private Set<User> borned;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "country_pref_id")
@@ -55,6 +59,14 @@ public class Country {
 
     public void setCountryPreferences(UserPreferences countryPreferences) {
         this.countryPreferences = countryPreferences;
+    }
+
+    public Set<User> getBorned() {
+        return borned;
+    }
+
+    public void setBorned(Set<User> borned) {
+        this.borned = borned;
     }
 
     public Country() {}
