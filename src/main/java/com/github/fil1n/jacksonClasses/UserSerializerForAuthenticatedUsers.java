@@ -32,6 +32,68 @@ public class UserSerializerForAuthenticatedUsers extends StdSerializer<User> {
          jsonGenerator.writeNumberField("maxRoommatesNumber", user.getMaxRoommatesNumber());
 
 
+         if(user.getOwnedGroup() != null) {
+             jsonGenerator.writeObjectFieldStart("ownedGroup");
+             jsonGenerator.writeNumberField("id", user.getOwnedGroup().getId());
+             jsonGenerator.writeStringField("name", user.getOwnedGroup().getName());
+             jsonGenerator.writeStringField("city", user.getOwnedGroup().getCity().getName());
+             jsonGenerator.writeStringField("groupInfo", user.getOwnedGroup().getGroupInfo());
+             jsonGenerator.writeNumberField("memberNumber", user.getOwnedGroup().getTrustedUsers().size());
+             jsonGenerator.writeNumberField("peopleNumber", user.getOwnedGroup().getTrustedUsers().size() + user.getOwnedGroup().getUntrustedFollowers().size());
+             jsonGenerator.writeNumberField("rentalPeriod", user.getOwnedGroup().getRentalPeriod());
+             jsonGenerator.writeNumberField("free", user.getOwnedGroup().getMAX_NUM_OF_USERS() - user.getOwnedGroup().getTrustedUsers().size());
+
+             jsonGenerator.writeArrayFieldStart("members");
+             user.getOwnedGroup().getTrustedUsers().forEach(
+                     member -> {
+                         try {
+                             jsonGenerator.writeStartObject();
+                             jsonGenerator.writeNumberField("id", member.getId());
+                             jsonGenerator.writeStringField("name", member.getName());
+                             jsonGenerator.writeNumberField("age", member.getAge());
+
+                             if(user.getUserInfo() != null) {
+                                 jsonGenerator.writeStringField("userInfo", member.getUserInfo());
+                             }
+
+                             if(member.getPhoto() != null) {
+                                 jsonGenerator.writeStringField("photo", Base64.getEncoder().encodeToString(member.getPhoto()));
+                             }
+
+                             jsonGenerator.writeEndObject();
+                         } catch (IOException e) {
+                             e.printStackTrace();
+                         }
+                     }
+             );
+
+             user.getOwnedGroup().getUntrustedFollowers().forEach(
+                     member -> {
+                         try {
+                             jsonGenerator.writeStartObject();
+                             jsonGenerator.writeNumberField("id", member.getId());
+                             jsonGenerator.writeStringField("name", member.getName());
+                             jsonGenerator.writeNumberField("age", member.getAge());
+
+                             if(user.getUserInfo() != null) {
+                                 jsonGenerator.writeStringField("userInfo", member.getUserInfo());
+                             }
+
+                             if(member.getPhoto() != null) {
+                                 jsonGenerator.writeStringField("photo", Base64.getEncoder().encodeToString(member.getPhoto()));
+                             }
+
+                             jsonGenerator.writeEndObject();
+                         } catch (IOException e) {
+                             e.printStackTrace();
+                         }
+                     }
+             );
+
+             jsonGenerator.writeEndArray();
+             jsonGenerator.writeEndObject();
+         }
+         
          if(user.getUserInfo() != null) {
              jsonGenerator.writeStringField("userInfo", user.getUserInfo());
          }
