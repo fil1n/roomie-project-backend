@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.github.fil1n.CryptoUtils;
 import com.github.fil1n.dao.CityDao;
+import com.github.fil1n.dao.CountryDao;
 import com.github.fil1n.dao.LanguageDao;
 import com.github.fil1n.dao.UniversityDao;
 import com.github.fil1n.models.Language;
@@ -20,6 +21,7 @@ import java.util.concurrent.atomic.AtomicLong;
 
 public class UserDeserializer extends StdDeserializer<User> {
 
+    private static CountryDao countryDao = new CountryDao();
     private static CityDao cityDao = new CityDao();
     private static UniversityDao universityDao = new UniversityDao();
     private static LanguageDao languageDao = new LanguageDao();
@@ -41,13 +43,24 @@ public class UserDeserializer extends StdDeserializer<User> {
         user.setName(node.get("userName").asText());
         user.setPassword(CryptoUtils.cryptString(node.get("password").asText()));
         user.setEmail(node.get("email").asText());
-        user.setAdditionalInfo(node.get("userInfo").asText());
+
+        if(node.get("userInfo") != null) {
+            user.setUserInfo(node.get("userInfo").asText());
+        }
         user.setSex(User.Sex.valueOf(node.get("sex").asText()));
 
         if(node.get("birthCity") != null) {
             try {
                 user.setNativeCity(cityDao.getById(node.get("birthCity").asLong()));
             } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        if(node.get("birthCountry") != null) {
+            try {
+                user.setBirthCountry(countryDao.getById(node.get("birthCountry").asLong()));
+            }catch (Exception e) {
                 e.printStackTrace();
             }
         }

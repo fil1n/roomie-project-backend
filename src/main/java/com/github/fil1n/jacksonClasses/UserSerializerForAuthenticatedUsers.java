@@ -27,6 +27,18 @@ public class UserSerializerForAuthenticatedUsers extends StdSerializer<User> {
          jsonGenerator.writeNumberField("id", user.getId());
          jsonGenerator.writeStringField("name", user.getName());
          jsonGenerator.writeNumberField("age", user.getAge());
+         jsonGenerator.writeStringField("sex", user.getSex().toString());
+         jsonGenerator.writeNumberField("rentalPeriod", user.getRentalPeriod());
+         jsonGenerator.writeNumberField("maxRoommatesNumber", user.getMaxRoommatesNumber());
+
+
+         if(user.getUserInfo() != null) {
+             jsonGenerator.writeStringField("userInfo", user.getUserInfo());
+         }
+
+         if(user.getBirthCountry() != null) {
+             jsonGenerator.writeStringField("birthCountry", user.getBirthCountry().getName());
+         }
 
          if(user.getNativeCity() != null) {
              jsonGenerator.writeStringField("birthCity", user.getNativeCity().getName());
