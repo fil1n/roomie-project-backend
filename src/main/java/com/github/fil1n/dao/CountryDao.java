@@ -3,7 +3,9 @@ package com.github.fil1n.dao;
 import com.github.fil1n.HibernateInit;
 import com.github.fil1n.models.Country;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.hibernate.query.Query;
+import org.jetbrains.annotations.NotNull;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -29,6 +31,25 @@ public class CountryDao {
         }
 
         throw new Exception();
+    }
+
+    public Country getById(@NotNull Long id) throws Exception {
+        try {
+            Transaction transaction;
+            Session session;
+
+            session = HibernateInit.getSessionFactory().openSession();
+            transaction = session.beginTransaction();
+            Country country = session.get(Country.class, id);
+            transaction.commit();
+            session.close();
+
+            return country;
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        throw  new Exception();
     }
 
 }
