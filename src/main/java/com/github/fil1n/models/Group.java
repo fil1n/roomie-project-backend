@@ -47,6 +47,7 @@ public class Group {
     @Column(name = "group_info")
     private String groupInfo;
 
+    @LazyCollection(LazyCollectionOption.FALSE)
     @OneToMany (
             mappedBy = "groupPolls"
     )
