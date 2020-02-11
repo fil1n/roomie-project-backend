@@ -26,7 +26,7 @@ public class Main {
         app.routes(() ->
                 {
                     app.get("/group/:id", ctx -> GroupCRUD.getGroup(ctx.pathParam("id"), ctx));
-                    app.post("/allgroups", ctx -> GroupCRUD.getRequiredGroups(ctx));
+                    app.get("/allgroups", ctx -> GroupCRUD.getRequiredGroups(ctx));
                     app.get("/profile/:id", ctx -> UserCRUD.getUserById(ctx.pathParam("id"), ctx));
                     app.get("/city/:id", ctx -> CityCRUD.getById(ctx.pathParam("id"), ctx));
                     app.get("/cities/:country", ctx -> CityCRUD.getByCountry(ctx.pathParam("country"), ctx));
