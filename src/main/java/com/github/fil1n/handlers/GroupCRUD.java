@@ -159,7 +159,12 @@ public class GroupCRUD {
                 return;
             }
 
-            Group group = JavalinJacksonUtils.getExampleGroupMapper().readValue(ctx.body(), Group.class);
+            User user = userDao.getByLogin(email).get(0);
+            Group group = new Group();
+            group.setMAX_NUM_OF_USERS(user.getMaxRoommatesNumber().longValue());
+            group.setCity(user.getCurrentCity());
+            group.setRentalPeriod(user.getRentalPeriod());
+
             List<Group> groups = (ArrayList<Group>) NewSort.getGroups(group);
             String result = JavalinJacksonUtils.getGroupMapperForAuthenticatedUsers().writeValueAsString(groups);
             ctx.json(result);
