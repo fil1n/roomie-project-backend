@@ -26,12 +26,27 @@ public class GroupSerializerForGroupmates  extends StdSerializer<Group> {
         jsonGenerator.writeStringField("name", group.getName());
         jsonGenerator.writeStringField("city", group.getCity().getName());
         jsonGenerator.writeStringField("groupInfo", group.getGroupInfo());
-        jsonGenerator.writeNumberField("memberNumber", group.getTrustedUsers().size());
-        jsonGenerator.writeNumberField("peopleNumber", group.getTrustedUsers().size() + group.getUntrustedFollowers().size());
+        jsonGenerator.writeNumberField("memberNumber", group.getTrustedUsers().size() + 1);
+        jsonGenerator.writeNumberField("peopleNumber", group.getTrustedUsers().size() + group.getUntrustedFollowers().size() + 1);
         jsonGenerator.writeNumberField("rentalPeriod", group.getRentalPeriod());
-        jsonGenerator.writeNumberField("free", group.getMAX_NUM_OF_USERS() - group.getTrustedUsers().size());
+        jsonGenerator.writeNumberField("free", group.getMAX_NUM_OF_USERS() - group.getTrustedUsers().size() - 1);
 
         jsonGenerator.writeArrayFieldStart("members");
+
+        try {
+            jsonGenerator.writeStartObject();
+            jsonGenerator.writeNumberField("id", group.getOwner().getId());
+            jsonGenerator.writeStringField("name", group.getOwner().getName());
+            jsonGenerator.writeNumberField("age", group.getOwner().getAge());
+            jsonGenerator.writeStringField("userInfo", group.getOwner().getUserInfo());
+            if(group.getOwner().getPhoto() != null) {
+                jsonGenerator.writeStringField("photo", Base64.getEncoder().encodeToString(group.getOwner().getPhoto()));
+            }
+            jsonGenerator.writeEndObject();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         group.getTrustedUsers().forEach(
                 member -> {
                     try {
