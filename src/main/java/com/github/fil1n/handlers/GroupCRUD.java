@@ -1,6 +1,7 @@
 package com.github.fil1n.handlers;
 
 import com.github.fil1n.Authentication;
+import com.github.fil1n.NewSort;
 import com.github.fil1n.Sort;
 import com.github.fil1n.dao.GroupDao;
 import com.github.fil1n.dao.UserDao;
@@ -11,6 +12,7 @@ import io.javalin.http.Context;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class GroupCRUD {
 
@@ -148,6 +150,7 @@ public class GroupCRUD {
 
     public static void getRequiredGroups(@NotNull Context ctx) throws Exception {
         try {
+
             String email = ctx.basicAuthCredentials().getUsername();
             String password = ctx.basicAuthCredentials().getPassword();
 
@@ -156,11 +159,10 @@ public class GroupCRUD {
                 return;
             }
 
-            Group group = ctx.bodyAsClass(Group.class);
-
-            ArrayList<Group> groups = Sort.getRecommendedGroups(group);
-
-            ctx.json(group);
+            Group group = JavalinJacksonUtils.getExampleGroupMapper().readValue(ctx.body(), Group.class);
+            List<Group> groups = (ArrayList<Group>) NewSort.getGroups(group);
+            String result = JavalinJacksonUtils.getGroupMapperForAuthenticatedUsers().writeValueAsString(groups);
+            ctx.json(result);
         }catch (Exception e) {
             e.printStackTrace();
         }
