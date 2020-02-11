@@ -35,6 +35,7 @@ public class GroupCRUD {
                 User user = userDao.getByLogin(email).get(0);
 
                 System.out.println(user.getId());
+
                 if(user.getId() == group.getOwner().getId()) {
                     ctx.json(JavalinJacksonUtils.getGroupMapperForGroupmates().writeValueAsString(group));
                     return;
