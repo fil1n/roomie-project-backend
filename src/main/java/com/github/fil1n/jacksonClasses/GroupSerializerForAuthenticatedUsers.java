@@ -49,8 +49,11 @@ public class GroupSerializerForAuthenticatedUsers extends StdSerializer<Group> {
                                 }
                             }
                     );
+            jsonGenerator.writeEndArray();
 
-        group.getUntrustedFollowers().forEach(
+
+            jsonGenerator.writeArrayFieldStart("applications");
+            group.getUntrustedFollowers().forEach(
                 member -> {
                     try {
                         jsonGenerator.writeStartObject();

@@ -50,7 +50,9 @@ public class GroupSerializerForGroupmates  extends StdSerializer<Group> {
                     }
                 }
         );
+        jsonGenerator.writeEndArray();
 
+        jsonGenerator.writeArrayFieldStart("applications");
         group.getUntrustedFollowers().forEach(
                 member -> {
                     try {
@@ -71,15 +73,7 @@ public class GroupSerializerForGroupmates  extends StdSerializer<Group> {
         jsonGenerator.writeEndArray();
 
         jsonGenerator.writeArrayFieldStart("polls");
-
-            int size = group.getPolls().size();
-            int counter = size - 5;
-            if(counter < 0) {
-                counter = 0;
-            }
-
-
-            for(int i = counter; i < size; ++i) {
+            for(int i = 0; i < group.getPolls().size(); ++i) {
                 Question question = group.getPolls().get(i);
                 jsonGenerator.writeNumberField("id", question.getId());
                 jsonGenerator.writeStringField("type", question.getBody());
