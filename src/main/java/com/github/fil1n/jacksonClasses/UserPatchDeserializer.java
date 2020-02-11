@@ -46,7 +46,7 @@ public class UserPatchDeserializer extends StdDeserializer<User> {
 
         if(node.get("photo") != null) {
             String ph = node.get("photo").asText();
-            user.setPhoto(Base64.getDecoder().decode(ph));
+            user.setPhoto(Base64.getDecoder().decode(ph.getBytes("UTF-8")));
         }
 
         if(node.get("userInfo") != null) {
