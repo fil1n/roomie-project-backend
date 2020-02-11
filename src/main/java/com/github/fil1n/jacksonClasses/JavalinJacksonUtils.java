@@ -35,9 +35,16 @@ public class JavalinJacksonUtils {
     private static ObjectMapper loginMapper = new ObjectMapper();
     private static SimpleModule userPatchModule = new SimpleModule();
     private static ObjectMapper userPatchMapper = new ObjectMapper();
+    private static SimpleModule exampleGroupModule = new SimpleModule();
+    private static ObjectMapper exampleGroupMapper = new ObjectMapper();
+
 
     static {
         try {
+
+            exampleGroupModule.addDeserializer(Group.class, new ExampleGroupDeserializer());
+            exampleGroupMapper.registerModule(exampleGroupModule);
+
             loginModule.addSerializer(User.class, new LoginSerializer());
             loginMapper.registerModule(loginModule);
 
@@ -87,6 +94,8 @@ public class JavalinJacksonUtils {
             e.printStackTrace();
         }
     }
+
+    public static ObjectMapper getExampleGroupMapper() { return exampleGroupMapper; }
 
     public static ObjectMapper getUniversityMapper() {
         return universityMapper;
