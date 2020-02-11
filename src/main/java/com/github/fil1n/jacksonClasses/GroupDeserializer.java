@@ -56,6 +56,11 @@ public class GroupDeserializer extends StdDeserializer<Group> {
         group.setCity(city);
         group.setTelegramLink(node.get("telegramLink").asText());
         group.setWhatsappLink(node.get("whatsappLink").asText());
+
+        if(node.get("groupInfo") != null) {
+            group.setGroupInfo(node.get("groupInfo").asText());
+        }
+
         return group;
     }
 }

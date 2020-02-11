@@ -22,6 +22,7 @@ public class GroupSerializerForAuthenticatedUsers extends StdSerializer<Group> {
     public void serialize(Group group, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException {
         jsonGenerator.writeStartObject();
             jsonGenerator.writeNumberField("id", group.getId());
+            jsonGenerator.writeNumberField("ownerId", group.getOwner().getId());
             jsonGenerator.writeStringField("name", group.getName());
             jsonGenerator.writeStringField("city", group.getCity().getName());
             jsonGenerator.writeStringField("groupInfo", group.getGroupInfo());
@@ -48,9 +49,7 @@ public class GroupSerializerForAuthenticatedUsers extends StdSerializer<Group> {
                                 }
                             }
                     );
-            jsonGenerator.writeEndArray();
 
-        jsonGenerator.writeArrayFieldStart("applications");
         group.getUntrustedFollowers().forEach(
                 member -> {
                     try {

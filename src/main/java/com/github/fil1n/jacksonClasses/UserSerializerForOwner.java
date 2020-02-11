@@ -30,8 +30,66 @@ public class UserSerializerForOwner extends StdSerializer<User> {
         jsonGenerator.writeNumberField("rentalPeriod", user.getRentalPeriod());
         jsonGenerator.writeNumberField("maxRoommatesNumber", user.getMaxRoommatesNumber());
 
+
+        if(user.getUserInfo() != null) {
+            jsonGenerator.writeStringField("userInfo", user.getUserInfo());
+        }
+
+        if(user.getBirthCountry() != null) {
+            jsonGenerator.writeStringField("birthCountry", user.getBirthCountry().getName());
+        }
+
+        if(user.getNativeCity() != null) {
+            jsonGenerator.writeStringField("birthCity", user.getNativeCity().getName());
+        }
+
+        if(user.getCurrentCity() != null) {
+            jsonGenerator.writeStringField("currentCity", user.getCurrentCity().getName());
+        }
+
+        if(user.getUserInfo() != null) {
+            jsonGenerator.writeStringField("userInfo", user.getUserInfo());
+        }
+
+        if(user.getPhoto() != null) {
+            jsonGenerator.writeStringField("photo", Base64.getEncoder().encodeToString(user.getPhoto()));
+        }
+
+        jsonGenerator.writeStringField("birthDate", user.getBirthDate());
+
+        if(user.getUniversity() != null) {
+            jsonGenerator.writeNumberField("universityId", user.getUniversity().getId());
+            jsonGenerator.writeStringField("universityName", user.getUniversity().getName());
+        }
+
+        if(user.getFaculty() != null) {
+            jsonGenerator.writeStringField("speciality", user.getFaculty().getName());
+        }
+
+        jsonGenerator.writeArrayFieldStart("languages");
+        for(int i = 0; i < user.getUserLanguageList().size(); ++i) {
+            jsonGenerator.writeStartObject();
+            jsonGenerator.writeNumberField("languageId", user.getUserLanguageList().get(i).getId());
+            jsonGenerator.writeStringField("languageName", user.getUserLanguageList().get(i).getName());
+            jsonGenerator.writeEndObject();
+        }
+        jsonGenerator.writeEndArray();
+
+        if(user.getHabbitList() != null) {
+            jsonGenerator.writeArrayFieldStart("badHabits");
+            for (int i = 0; i < user.getHabbitList().size(); ++i) {
+                jsonGenerator.writeStartObject();
+                jsonGenerator.writeStringField("habitName", user.getHabbitList().get(i).getName());
+                jsonGenerator.writeEndObject();
+            }
+            jsonGenerator.writeEndArray();
+        }
+
+        jsonGenerator.writeStringField("phoneNumber", user.getPhone());
+
+        jsonGenerator.writeArrayFieldStart("groups");
         if(user.getOwnedGroup() != null) {
-            jsonGenerator.writeObjectFieldStart("ownedGroup");
+            jsonGenerator.writeStartObject();
             jsonGenerator.writeNumberField("id", user.getOwnedGroup().getId());
             jsonGenerator.writeStringField("name", user.getOwnedGroup().getName());
             jsonGenerator.writeStringField("city", user.getOwnedGroup().getCity().getName());
@@ -93,63 +151,7 @@ public class UserSerializerForOwner extends StdSerializer<User> {
         }
 
 
-        if(user.getUserInfo() != null) {
-            jsonGenerator.writeStringField("userInfo", user.getUserInfo());
-        }
 
-        if(user.getBirthCountry() != null) {
-            jsonGenerator.writeStringField("birthCountry", user.getBirthCountry().getName());
-        }
-
-        if(user.getNativeCity() != null) {
-            jsonGenerator.writeStringField("birthCity", user.getNativeCity().getName());
-        }
-
-        if(user.getCurrentCity() != null) {
-            jsonGenerator.writeStringField("currentCity", user.getCurrentCity().getName());
-        }
-
-        if(user.getUserInfo() != null) {
-            jsonGenerator.writeStringField("userInfo", user.getUserInfo());
-        }
-
-        if(user.getPhoto() != null) {
-            jsonGenerator.writeStringField("photo", Base64.getEncoder().encodeToString(user.getPhoto()));
-        }
-
-        jsonGenerator.writeStringField("birthDate", user.getBirthDate());
-
-        if(user.getUniversity() != null) {
-            jsonGenerator.writeNumberField("universityId", user.getUniversity().getId());
-            jsonGenerator.writeStringField("universityName", user.getUniversity().getName());
-        }
-
-        if(user.getFaculty() != null) {
-            jsonGenerator.writeStringField("speciality", user.getFaculty().getName());
-        }
-
-        jsonGenerator.writeArrayFieldStart("languages");
-        for(int i = 0; i < user.getUserLanguageList().size(); ++i) {
-            jsonGenerator.writeStartObject();
-            jsonGenerator.writeNumberField("languageId", user.getUserLanguageList().get(i).getId());
-            jsonGenerator.writeStringField("languageName", user.getUserLanguageList().get(i).getName());
-            jsonGenerator.writeEndObject();
-        }
-        jsonGenerator.writeEndArray();
-
-        if(user.getHabbitList() != null) {
-            jsonGenerator.writeArrayFieldStart("badHabits");
-            for (int i = 0; i < user.getHabbitList().size(); ++i) {
-                jsonGenerator.writeStartObject();
-                jsonGenerator.writeStringField("habitName", user.getHabbitList().get(i).getName());
-                jsonGenerator.writeEndObject();
-            }
-            jsonGenerator.writeEndArray();
-        }
-
-        jsonGenerator.writeStringField("phoneNumber", user.getPhone());
-
-        jsonGenerator.writeArrayFieldStart("groups");
 
             for(int i = 0; i < user.getWhereIsUntrusted().size(); ++i) {
                 Group group = user.getWhereIsUntrusted().get(i);
@@ -164,6 +166,69 @@ public class UserSerializerForOwner extends StdSerializer<User> {
                 jsonGenerator.writeNumberField("free", group.getMAX_NUM_OF_USERS() - group.getTrustedUsers().size());
 
                 jsonGenerator.writeArrayFieldStart("members");
+
+                if(user.getOwnedGroup() != null) {
+                    jsonGenerator.writeObjectFieldStart("ownedGroup");
+                    jsonGenerator.writeNumberField("id", user.getOwnedGroup().getId());
+                    jsonGenerator.writeStringField("name", user.getOwnedGroup().getName());
+                    jsonGenerator.writeStringField("city", user.getOwnedGroup().getCity().getName());
+                    jsonGenerator.writeStringField("groupInfo", user.getOwnedGroup().getGroupInfo());
+                    jsonGenerator.writeNumberField("memberNumber", user.getOwnedGroup().getTrustedUsers().size());
+                    jsonGenerator.writeNumberField("peopleNumber", user.getOwnedGroup().getTrustedUsers().size() + user.getOwnedGroup().getUntrustedFollowers().size());
+                    jsonGenerator.writeNumberField("rentalPeriod", user.getOwnedGroup().getRentalPeriod());
+                    jsonGenerator.writeNumberField("free", user.getOwnedGroup().getMAX_NUM_OF_USERS() - user.getOwnedGroup().getTrustedUsers().size());
+
+                    jsonGenerator.writeArrayFieldStart("members");
+                    user.getOwnedGroup().getTrustedUsers().forEach(
+                            member -> {
+                                try {
+                                    jsonGenerator.writeStartObject();
+                                    jsonGenerator.writeNumberField("id", member.getId());
+                                    jsonGenerator.writeStringField("name", member.getName());
+                                    jsonGenerator.writeNumberField("age", member.getAge());
+
+                                    if(user.getUserInfo() != null) {
+                                        jsonGenerator.writeStringField("userInfo", member.getUserInfo());
+                                    }
+
+                                    if(member.getPhoto() != null) {
+                                        jsonGenerator.writeStringField("photo", Base64.getEncoder().encodeToString(member.getPhoto()));
+                                    }
+
+                                    jsonGenerator.writeEndObject();
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                    );
+
+                    user.getOwnedGroup().getUntrustedFollowers().forEach(
+                            member -> {
+                                try {
+                                    jsonGenerator.writeStartObject();
+                                    jsonGenerator.writeNumberField("id", member.getId());
+                                    jsonGenerator.writeStringField("name", member.getName());
+                                    jsonGenerator.writeNumberField("age", member.getAge());
+
+                                    if(user.getUserInfo() != null) {
+                                        jsonGenerator.writeStringField("userInfo", member.getUserInfo());
+                                    }
+
+                                    if(member.getPhoto() != null) {
+                                        jsonGenerator.writeStringField("photo", Base64.getEncoder().encodeToString(member.getPhoto()));
+                                    }
+
+                                    jsonGenerator.writeEndObject();
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                    );
+
+                    jsonGenerator.writeEndArray();
+                    jsonGenerator.writeEndObject();
+                }
+
                 group.getTrustedUsers().forEach(
                         member -> {
                             try {
@@ -186,9 +251,7 @@ public class UserSerializerForOwner extends StdSerializer<User> {
                             }
                         }
                 );
-                jsonGenerator.writeEndArray();
 
-                jsonGenerator.writeArrayFieldStart("applications");
                 group.getUntrustedFollowers().forEach(
                         member -> {
                             try {
