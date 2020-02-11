@@ -95,10 +95,10 @@ public class UserSerializerForOwner extends StdSerializer<User> {
             jsonGenerator.writeStringField("name", user.getOwnedGroup().getName());
             jsonGenerator.writeStringField("city", user.getOwnedGroup().getCity().getName());
             jsonGenerator.writeStringField("groupInfo", user.getOwnedGroup().getGroupInfo());
-            jsonGenerator.writeNumberField("memberNumber", user.getOwnedGroup().getTrustedUsers().size());
+            jsonGenerator.writeNumberField("memberNumber", user.getOwnedGroup().getTrustedUsers().size() + 1);
             jsonGenerator.writeNumberField("peopleNumber", user.getOwnedGroup().getTrustedUsers().size() + user.getOwnedGroup().getUntrustedFollowers().size());
             jsonGenerator.writeNumberField("rentalPeriod", user.getOwnedGroup().getRentalPeriod());
-            jsonGenerator.writeNumberField("free", user.getOwnedGroup().getMAX_NUM_OF_USERS() - user.getOwnedGroup().getTrustedUsers().size());
+            jsonGenerator.writeNumberField("free", user.getOwnedGroup().getMAX_NUM_OF_USERS() - user.getOwnedGroup().getTrustedUsers().size() - 1);
 
             jsonGenerator.writeArrayFieldStart("members");
 
