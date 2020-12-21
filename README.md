@@ -9,10 +9,11 @@ Application was created for contest using following frameworks, libraries and da
 
 
 ### Deploy
-```
+ ```
 git clone https://github.com/fil1n/source
 cd source
 mvn clean compile assembly:single
 cd target
 nohup java -jar $jar_name > source_backend.log  2>&1 &
 ```
+After first run of the app run the sql scripts located in sql.zip fordel. 
