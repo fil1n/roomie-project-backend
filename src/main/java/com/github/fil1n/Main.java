@@ -9,7 +9,7 @@ public class Main {
     public static void main(String[] args)  {
 
 
-         // trash to init hibernate before making responses
+         //init hibernate before making responses
         try {
             HibernateInit.getSessionFactory();
         } catch (Exception e) {
