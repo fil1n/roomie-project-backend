@@ -67,9 +67,6 @@ public class User {
     @JoinColumn(name = "university_id")
     private University university;
 
-//    @OneToOne
-//    private UserPreferences userPreferences;
-
     @LazyCollection(LazyCollectionOption.FALSE)
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinTable(

@@ -24,7 +24,7 @@ public class UserPreferences {
 
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "countryPreferences")
-    private List<Country> countryPrefences;
+    private List<Country> countryPreferences;
 
     @OneToMany(mappedBy = "userPreferences")
     private List<LangPreferences> langPreferencesList;
@@ -61,12 +61,12 @@ public class UserPreferences {
         this.userPreferences = userPreferences;
     }
 
-    public List<Country> getCountryPrefences() {
-        return countryPrefences;
+    public List<Country> getCountryPreferences() {
+        return countryPreferences;
     }
 
-    public void setCountryPrefences(List<Country> countryPrefences) {
-        this.countryPrefences = countryPrefences;
+    public void setCountryPreferences(List<Country> countryPreferences) {
+        this.countryPreferences = countryPreferences;
     }
 
     public UserPreferences() {}

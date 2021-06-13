@@ -16,10 +16,6 @@ public class Question {
     @Column(name = "body")
     private QUESTION_TYPE body;
 
-//    @ManyToOne()
-//    @JoinColumn(name = "person_id")
-//    private User person;
-
     @OneToOne()
     @JoinColumn(name = "person_id")
     private User person;
@@ -59,14 +55,6 @@ public class Question {
     public void setGroupPolls(Group groupPolls) {
         this.groupPolls = groupPolls;
     }
-
-//    public User getPerson() {
-//        return person;
-//    }
-//
-//    public void setPerson(User person) {
-//        this.person = person;
-//    }
 
     public Integer getNumberOfAffirmativeAnswers() {
         return numberOfAffirmativeAnswers;

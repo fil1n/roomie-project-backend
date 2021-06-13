@@ -131,11 +131,7 @@ public class City {
             return true;
         }
 
-        if(((City) o).getName() == this.getName()) {
-            return true;
-        }
-
-        return false;
+        return ((City) o).getName().equals(this.getName());
     }
 
     public City() {}
