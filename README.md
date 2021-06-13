@@ -1,19 +1,10 @@
-# Backend for Roommie project
-Application was created for contest using following frameworks, libraries and database:
+# Roommie project
+Backend for school project presented at Republican Contest of the  Scientific Projects.
+
+Created using following stack:
 * Javalin
 * Hibernate
 * Libphonenumber
 * Jbcrypt
 * Jackson 
 * Postgresql
-
-
-### Deploy
- ```
-git clone https://github.com/fil1n/source
-cd source
-mvn clean compile assembly:single
-cd target
-nohup java -jar $jar_name > source_backend.log  2>&1 &
-```
-After first run of the app run the sql scripts located in sql.zip fordel. 
