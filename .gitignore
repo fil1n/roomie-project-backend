@@ -6,3 +6,5 @@ database.dia.autosave
 database.dia
 countrydb.sqlite
 source.iml
+.idea
+tests
